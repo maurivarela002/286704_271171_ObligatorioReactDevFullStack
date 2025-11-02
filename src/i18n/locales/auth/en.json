@@ -1,0 +1,34 @@
+{
+  "login": {
+    "title": "CLODE",
+    "subtitle": "Dental Management System",
+    "username": "Username",
+    "password": "Password",
+    "loginButton": "Sign In",
+    "createAccount": "Create a new account",
+    "error": "Incorrect username or password",
+    "divider": "or"
+  },
+  "signup": {
+    "title": "Create Account",
+    "subtitle": "Sign up for CLODE",
+    "username": "Username",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "registerButton": "Sign Up",
+    "alreadyHaveAccount": "Already have an account?",
+    "loginLink": "Sign in",
+    "errors": {
+      "allFieldsRequired": "All fields are required",
+      "invalidEmail": "Invalid email",
+      "passwordTooShort": "Password must be at least 6 characters"
+    },
+    "success": "Registration successful! Redirecting to login..."
+  },
+  "common": {
+    "loading": "Cargando...",
+    "error": "Error",
+    "success": "Éxito"
+  }
+}

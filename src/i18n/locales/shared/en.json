@@ -1,0 +1,18 @@
+{
+  "menu": {
+    "title": "Menu",
+    "home": "Go to home",
+    "weather": "Go to weather",
+    "logout": "Logout"
+  },
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "search": "Search",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success"
+  }
+}
