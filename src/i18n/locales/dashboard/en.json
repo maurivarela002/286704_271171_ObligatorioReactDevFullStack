@@ -1,0 +1,10 @@
+{
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Welcome",
+    "patients": "Patients",
+    "appointments": "Appointments",
+    "treatments": "Treatments",
+    "reports": "Reports"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "dashboard": {
+    "title": "Panel de Control",
+    "welcome": "Bienvenido",
+    "patients": "Pacientes",
+    "appointments": "Citas",
+    "treatments": "Tratamientos",
+    "reports": "Reportes"
+  }
+}
