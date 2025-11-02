@@ -9,6 +9,8 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { theme } from './theme/theme';
 import { I18nextProvider } from 'react-i18next';
 import i18n from './i18n/config';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
   return (
@@ -24,6 +26,19 @@ const App = () => {
               <Route path="/dashboard" element={<Menu />} />
             </Routes>
           </BrowserRouter>
+          <ToastContainer
+            position="bottom-left"
+            autoClose={2000}
+            hideProgressBar
+            closeOnClick
+            pauseOnHover
+            draggable
+            theme="light"
+            toastStyle={{
+              backgroundColor: theme.palette.background.paper,
+              color: theme.palette.text.primary,
+            }}
+          />
         </Provider>
       </ThemeProvider>
     </I18nextProvider>
@@ -154,7 +169,7 @@ export default App;
 //         <Informacion/>
 //         <Informacion/> */}
 
-//         <Informacion  nombre="Pepe" apellido="Suarez"/> 
+//         <Informacion  nombre="Pepe" apellido="Suarez"/>
 //         {/* <p>{nombres[0]}</p>
 //         <p>{nombres[1]}</p>
 //         <p>{nombres[2]}</p> */}

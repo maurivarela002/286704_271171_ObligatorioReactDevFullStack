@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { useTheme } from '@mui/material/styles';
 import {
     Box,
     TextField,
@@ -15,11 +14,13 @@ import {
 import LoginIcon from '@mui/icons-material/Login';
 import LanguageSwitcher from '../../components/LanguageSwitcher';
 import clodeIcon from '../../assets/img/clode-icon.jpg';
+import { useToast } from '../../utils/toast';
 
 const Login = () => {
     const { t } = useTranslation('auth');
+    const { showErrorToast, showSuccessToast } = useToast();
+
     const navigate = useNavigate();
-    const theme = useTheme();
     const [error, setError] = useState(false);
     const [loading, setLoading] = useState(false);
 
@@ -40,8 +41,10 @@ const Login = () => {
                 navigate('/dashboard');
                 localStorage.setItem('token', 'token');
                 localStorage.setItem('user', campoUser);
+                showSuccessToast('success.operation.title', 'success.operation.text');
             } else {
                 setError(true);
+                showErrorToast('errorsHttp.unauthorized.title', 'errorsHttp.unauthorized.text');
             }
             setLoading(false);
         }, 500);

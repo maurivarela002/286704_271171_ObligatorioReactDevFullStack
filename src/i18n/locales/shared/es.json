@@ -14,5 +14,49 @@
     "loading": "Cargando...",
     "error": "Error",
     "success": "Éxito"
+  },
+  "errorsHttp": {
+    "forbidden": {
+      "title": "Permisos insuficientes",
+      "text": "Al parecer no puedes realizar esta acción. Ponte en contacto con un administrador."
+    },
+    "unauthorized": {
+      "title": "Credenciales inválidas",
+      "text": "Para continuar contacta un administrador que compruebe las credenciales de autenticación."
+    },
+    "serverError": {
+      "title": "Falló la conexión del servidor",
+      "text": "¡Ups! Parece que algo salió mal. Espera unos instantes e intenta de nuevo."
+    },
+    "other": {
+      "title": "¡Ups! Algo salió mal",
+      "text": "Aguarda unos instantes e intenta de nuevo."
+    },
+    "404": {
+      "title": "Error en la solicitud de recurso",
+      "text": "Lo sentimos, no se encontró la API solicitada. Por favor, inténtalo de nuevo."
+    },
+    "422": {
+      "title": "Error de datos",
+      "text": "Lo sentimos, la solicitud no se pudo procesar debido a datos inválidos. Por favor, revisa la información proporcionada e inténtalo de nuevo."
+    },
+    "sessionLimitExceeded": {
+      "title": "Alcanzaste el límite máximo de sesiones permitidas por usuario",
+      "text": "Si deseas modificar el límite, comunícate con un administrador"
+    },
+    "sessionConflict": {
+      "title": "Conflicto detectado",
+      "text": "La solicitud no pudo completarse debido a un conflicto. Verifica tus datos o contacta a un administrador"
+    }
+  },
+  "success": {
+    "operation": {
+      "title": "¡Éxito!",
+      "text": "La operación se completó correctamente."
+    },
+    "saved": {
+      "title": "Guardado",
+      "text": "Los cambios se han guardado correctamente."
+    }
   }
 }

@@ -14,5 +14,49 @@
     "loading": "Loading...",
     "error": "Error",
     "success": "Success"
+  },
+  "errorsHttp": {
+    "forbidden": {
+      "title": "Insufficient permissions",
+      "text": "Apparently, you are unable to perform this action. Contact an administrator."
+    },
+    "unauthorized": {
+      "title": "Invalid credentials",
+      "text": "To continue, contact an administrator to check your authentication credentials."
+    },
+    "serverError": {
+      "title": "Server connection failed",
+      "text": "Oops! Looks like something went wrong. Wait a few minutes and try again."
+    },
+    "other": {
+      "title": "Oops! Something went wrong",
+      "text": "Wait a few minutes and try again."
+    },
+    "404": {
+      "title": "Error in resource request",
+      "text": "Sorry, the requested API could not be found. Please try again."
+    },
+    "422": {
+      "title": "Data error",
+      "text": "Sorry, the request could not be processed due to invalid data. Please review the information provided and try again."
+    },
+    "sessionLimitExceeded": {
+      "title": "You have reached the maximum number of sessions allowed per user",
+      "text": "To change the limit, contact an administrator"
+    },
+    "sessionConflict": {
+      "title": "Conflict detected",
+      "text": "The request could not be completed due to a conflict. Please check your data or contact an administrator"
+    }
+  },
+  "success": {
+    "operation": {
+      "title": "Success",
+      "text": "Operation completed successfully."
+    },
+    "saved": {
+      "title": "Saved",
+      "text": "Changes saved successfully."
+    }
   }
 }

@@ -1,7 +1,6 @@
-import React, { useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { useTheme } from '@mui/material/styles';
 import { 
     Box, 
     TextField, 
@@ -19,12 +18,13 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import LanguageSwitcher from '../../components/LanguageSwitcher';
 import clodeIcon from '../../assets/img/clode-icon.jpg';
+import { useToast } from '../../utils/toast';
 
 const Signup = () => {
 
     const { t } = useTranslation('auth');
+    const { showErrorToast, showSuccessToast } = useToast();
     const navigate = useNavigate();
-    const theme = useTheme();
     const [error, setError] = useState(false);
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);

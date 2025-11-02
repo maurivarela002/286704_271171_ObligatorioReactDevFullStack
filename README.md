@@ -4,6 +4,10 @@ Aplicación web desarrollada con React para la gestión de consultorios odontol�
 
 ## 🚀 Características
 
+- Notificaciones toast personalizadas
+- Manejo centralizado de errores HTTP
+- Mensajes de error y éxito traducidos
+
 - Autenticación de usuarios (login/registro)
 - Interfaz responsiva con Material-UI
 - Internacionalización (español/inglés)
@@ -19,6 +23,46 @@ Aplicación web desarrollada con React para la gestión de consultorios odontol�
   - i18next para internacionalización
   - Redux Toolkit para gestión de estado
   - Chart.js para gráficos
+  - React-Toastify para notificaciones
+
+## 🎯 Uso de Notificaciones
+
+### Mostrar notificaciones
+
+```javascript
+import { useToast } from '../utils/toast';
+
+function MiComponente() {
+  const { showSuccessToast, showErrorToast } = useToast();
+
+  // Ejemplo de éxito
+  const handleSuccess = () => {
+    showSuccessToast('success.operation.title', 'success.operation.text');
+  };
+
+  // Ejemplo de error
+  const handleError = () => {
+    showErrorToast('errorsHttp.unauthorized.title', 'errorsHttp.unauthorized.text');
+  };
+}
+```
+
+### Personalización
+
+Las notificaciones incluyen:
+- Posición: abajo a la izquierda
+- Duración: 2 segundos
+- Estilos: Integrados con el tema de Material-UI
+- Soporte para múltiples idiomas
+
+## 🔄 Manejo de Errores HTTP
+
+El sistema incluye un manejador global de errores HTTP que muestra notificaciones automáticamente para:
+- Errores 401 (No autorizado)
+- Errores 403 (Prohibido)
+- Errores 404 (No encontrado)
+- Errores 422 (Entidad no procesable)
+- Errores 500 (Error del servidor)
 
 ## 📁 Estructura del Proyecto
 
@@ -34,7 +78,9 @@ src/
 │   └── locales/         # Archivos de traducción
 │       ├── auth/        # Traducciones de autenticación
 │       ├── dashboard/   # Traducciones del dashboard
-│       └── shared/      # Traducciones compartidas
+│       ├── shared/      # Traducciones compartidas
+│       ├── es.json  # Español
+│       └── en.json  # Inglés
 ├── pages/               # Componentes de página
 │   ├── Auth/            # Páginas de autenticación
 │   │   ├── Login.jsx
@@ -47,7 +93,9 @@ src/
 │   ├── styles.js
 │   └── theme.js
 ├── App.jsx              # Componente raíz
-└── main.jsx             # Punto de entrada de la aplicación
+├── utils/             # Utilidades
+│   └── toast.jsx     # Configuración de notificaciones
+└── main.jsx          # Punto de entrada de la aplicación
 ```
 
 ## 🚀 Cómo Empezar
