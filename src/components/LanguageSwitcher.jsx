@@ -42,8 +42,7 @@ const LanguageSwitcher = () => {
         handleClose();
     };
 
-    const currentCode = i18n.language === 'es' ? <SpainFlag /> : <USAFlag />;
-
+    const currentCode = i18n.language.includes('es') ? <SpainFlag /> : <USAFlag />;
     return (
         <>
             <IconButton 

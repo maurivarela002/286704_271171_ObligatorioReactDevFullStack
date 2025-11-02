@@ -36,4 +36,4 @@ class HttpErrorHandler {
   sessionLimitExceeded() { throw new Error('sessionLimitExceeded not implemented'); }
 }
 
-module.exports = HttpErrorHandler;
+export default HttpErrorHandler;

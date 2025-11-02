@@ -50,6 +50,9 @@
     }
   },
   "success": {
+    "login": {
+      "title": "Inicio de sesión exitoso"
+    },
     "operation": {
       "title": "¡Éxito!",
       "text": "La operación se completó correctamente."
