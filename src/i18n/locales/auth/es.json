@@ -22,7 +22,8 @@
     "errors": {
       "allFieldsRequired": "Todos los campos son obligatorios",
       "invalidEmail": "Email inválido",
-      "passwordTooShort": "La contraseña debe tener al menos 6 caracteres"
+      "passwordTooShort": "La contraseña debe tener al menos 6 caracteres",
+      "passwordsDoNotMatch": "Las contraseñas no coinciden"
     },
     "success": "¡Registro exitoso! Redirigiendo al login..."
   },

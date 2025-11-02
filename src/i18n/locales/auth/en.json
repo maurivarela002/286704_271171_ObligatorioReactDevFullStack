@@ -22,7 +22,8 @@
     "errors": {
       "allFieldsRequired": "All fields are required",
       "invalidEmail": "Invalid email",
-      "passwordTooShort": "Password must be at least 6 characters"
+      "passwordTooShort": "Password must be at least 6 characters",
+      "passwordsDoNotMatch": "Passwords do not match"
     },
     "success": "Registration successful! Redirecting to login..."
   },
