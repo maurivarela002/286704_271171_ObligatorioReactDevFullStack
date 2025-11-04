@@ -64,6 +64,62 @@ El sistema incluye un manejador global de errores HTTP que muestra notificacione
 - Errores 422 (Entidad no procesable)
 - Errores 500 (Error del servidor)
 
+## 🌐 API Manager (apiManage.js)
+
+El módulo `apiManage.js` es un cliente HTTP configurado para realizar peticiones a la API del backend. Incluye manejo automático de autenticación y errores.
+
+### Características
+
+- Configuración automática de headers (Content-Type, Authorization)
+- Manejo centralizado de respuestas y errores
+- Métodos HTTP preconfigurados (GET, POST, PUT, DELETE)
+- Integración con el sistema de autenticación mediante token JWT
+
+### Uso Básico
+
+```javascript
+import { api } from './api/auth/apiManage';
+
+// Ejemplo de petición GET
+const fetchData = async () => {
+  try {
+    const response = await api.get('/ruta/recurso');
+    console.log(response.data);
+  } catch (error) {
+    // Los errores ya son manejados automáticamente
+    console.error('Error al obtener los datos:', error);
+  }
+};
+
+// Ejemplo de petición POST
+const createData = async (data) => {
+  try {
+    const response = await api.post('/ruta/recurso', data);
+    console.log('Recurso creado:', response);
+  } catch (error) {
+    console.error('Error al crear el recurso:', error);
+  }
+};
+```
+
+### Manejo de Autenticación
+
+El token de autenticación se obtiene automáticamente del `localStorage` con la clave 'token'. Después de un inicio de sesión exitoso, el token debe guardarse así:
+
+```javascript
+localStorage.setItem('token', 'tu-token-jwt');
+```
+
+### Manejo de Errores
+
+Los errores son manejados automáticamente por el `HttpErrorHandler`. Los códigos de error comunes incluyen:
+
+- `401`: No autorizado (token inválido o expirado)
+- `403`: Prohibido (permisos insuficientes)
+- `404`: Recurso no encontrado
+- `422`: Error de validación
+- `500+`: Errores del servidor
+
 ## 📁 Estructura del Proyecto
 
 ```

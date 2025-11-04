@@ -1,3 +1,6 @@
+import { useEffect } from 'react';
+import errorHandler from './api/config/globalHttpErrorHandler';
+import { useApiHandlers } from './api/config/i18nErrorHandler';
 import { Provider } from 'react-redux';
 import { store } from './store/store';
 import Login from './pages/Auth/Login';
@@ -5,7 +8,6 @@ import Signup from './pages/Auth/Signup';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Menu from './pages/Menu';
 import { ThemeProvider } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
 import { theme } from './theme/theme';
 import { I18nextProvider } from 'react-i18next';
 import i18n from './i18n/config';
@@ -13,10 +15,17 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
+  const { handleApiError, handleApiSuccess } = useApiHandlers();
+  useEffect(() => {
+    errorHandler.initHandlers = () => {
+      errorHandler.apiHandlers = { handleApiError, handleApiSuccess };
+    };
+    errorHandler.initHandlers();
+  }, [handleApiError, handleApiSuccess]);
+
   return (
     <I18nextProvider i18n={i18n}>
       <ThemeProvider theme={theme}>
-        <CssBaseline />
         <Provider store={store}>
           <BrowserRouter>
             <Routes>

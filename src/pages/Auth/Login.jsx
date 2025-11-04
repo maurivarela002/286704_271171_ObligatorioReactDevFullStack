@@ -14,12 +14,10 @@ import {
 import LoginIcon from '@mui/icons-material/Login';
 import LanguageSwitcher from '../../components/LanguageSwitcher';
 import clodeIcon from '../../assets/img/clode-icon.jpg';
-import { useToast } from '../../utils/toast';
+import { api } from '../../api/auth/apiManage';
 
 const Login = () => {
     const { t } = useTranslation('auth');
-    const { showErrorToast, showSuccessToast } = useToast();
-
     const navigate = useNavigate();
     const [error, setError] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -31,28 +29,26 @@ const Login = () => {
         localStorage.clear();
     }, [])
 
-    const ingresar = () => {
+    const ingresar = async () => {
         setLoading(true);
+        setError(false);
         const campoUser = user.current?.value;
         const campoPass = pass.current?.value;
 
-        setTimeout(() => {
-            if (campoUser === 'a' && campoPass === 'a') {
-                navigate('/dashboard');
-                localStorage.setItem('token', 'token');
-                localStorage.setItem('user', campoUser);
-                showSuccessToast('success.operation.title', 'success.operation.text');
-            } else {
-                setError(true);
-                showErrorToast('errorsHttp.unauthorized.title', 'errorsHttp.unauthorized.text');
-            }
-            setLoading(false);
-        }, 500);
-    }
+        try {
+            const response = await api.post('/v1/auth/login', {
+                username: campoUser,
+                password: campoPass
+            });
 
-    const handleKeyDown = (e) => {
-        if (e.key === 'Enter') {
-            ingresar();
+            localStorage.setItem('token', response.token);
+            localStorage.setItem('user', campoUser);
+
+            navigate('/dashboard');
+        } catch (error) {
+            setError(true);
+        } finally {
+            setLoading(false);
         }
     }
 
@@ -98,7 +94,7 @@ const Login = () => {
             >
                 <Box sx={{ textAlign: 'center', mb: 3 }}>
                     <Box sx={{ position: 'relative', mb: 3 }}>
-                        <Avatar 
+                        <Avatar
                             src={clodeIcon}
                             alt="CLODE Logo"
                             sx={{
@@ -125,7 +121,6 @@ const Login = () => {
                     variant="outlined"
                     fullWidth
                     inputRef={user}
-                    onKeyDown={handleKeyDown}
                 />
 
                 <TextField
@@ -134,7 +129,6 @@ const Login = () => {
                     variant="outlined"
                     fullWidth
                     inputRef={pass}
-                    onKeyDown={handleKeyDown}
                 />
 
                 <Button
@@ -145,7 +139,7 @@ const Login = () => {
                     onClick={ingresar}
                     startIcon={loading ? <CircularProgress size={20} color="inherit" /> : <LoginIcon />}
                     disabled={loading}
-                    sx={{ 
+                    sx={{
                         mt: 2,
                         py: 1.5,
                         '&:hover': {

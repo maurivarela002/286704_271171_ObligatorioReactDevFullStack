@@ -14,7 +14,7 @@ export const useToast = () => {
       </div>,
       {
         position: 'bottom-left',
-        autoClose: 2000,
+        autoClose: 3500,
         hideProgressBar: true,
         closeOnClick: true,
         pauseOnHover: true,
