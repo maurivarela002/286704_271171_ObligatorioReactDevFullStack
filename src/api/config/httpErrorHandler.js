@@ -1,6 +1,7 @@
-class HttpErrorHandler {
+export default class HttpErrorHandler {
   handle(res, error = {}) {
     const status = error?.status || error?.statusCode || error?.response?.status || 400;
+    console.log(status);
     switch (status) {
       case 401:
         return this.unauthorized(res, error);
@@ -35,5 +36,3 @@ class HttpErrorHandler {
   unprocessableEntity() { throw new Error('unprocessableEntity not implemented'); }
   sessionLimitExceeded() { throw new Error('sessionLimitExceeded not implemented'); }
 }
-
-export default HttpErrorHandler;

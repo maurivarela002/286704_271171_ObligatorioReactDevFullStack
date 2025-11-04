@@ -14,13 +14,10 @@ import {
 import LoginIcon from '@mui/icons-material/Login';
 import LanguageSwitcher from '../../components/LanguageSwitcher';
 import clodeIcon from '../../assets/img/clode-icon.jpg';
-import { useToast } from '../../utils/toast';
 import { api } from '../../api/auth/apiManage';
 
 const Login = () => {
     const { t } = useTranslation('auth');
-    const { showErrorToast, showSuccessToast } = useToast();
-
     const navigate = useNavigate();
     const [error, setError] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -46,7 +43,6 @@ const Login = () => {
 
             localStorage.setItem('token', response.token);
             localStorage.setItem('user', campoUser);
-            showSuccessToast('success.login.title');
 
             navigate('/dashboard');
         } catch (error) {

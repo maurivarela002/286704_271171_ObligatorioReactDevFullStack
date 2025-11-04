@@ -1,8 +1,8 @@
 // En apiManage.js
-import HttpErrorHandler from '../config/httpErrorHandler';
+import errorHandler from '../config/globalHttpErrorHandler';
 
-const errorHandler = new HttpErrorHandler();
 const BASE_URL = 'http://localhost:3000';
+const BASE_URL_PROD = 'https://286704-271171-obligatorio-dev-full.vercel.app';
 
 const getHeaders = () => ({
   'Content-Type': 'application/json',
@@ -12,7 +12,7 @@ const getHeaders = () => ({
 const handleResponse = async (response) => {
   try {
     const data = await response.json();
-    
+
     if (!response.ok) {
       const error = new Error(data.message || 'Error en la solicitud');
       error.response = {
@@ -22,19 +22,19 @@ const handleResponse = async (response) => {
       };
       throw error;
     }
-    
+
     return data;
   } catch (error) {
     if (!error.response) {
-      error.response = { 
-        status: error.status || 500, 
+      error.response = {
+        status: error.status || 500,
         statusText: error.message || 'Error de conexión',
         data: error.data || {}
       };
     }
-    
-    errorHandler.handle(error.response, error);
-    throw error;
+
+    errorHandler.handleError(error, error.response.status);
+    return Promise.reject(error);
   }
 };
 
@@ -49,10 +49,19 @@ const createApiMethod = (method) => async (endpoint, data) => {
   }
 
   try {
-    const response = await fetch(`${BASE_URL}${endpoint}`, options);
+    const response = await fetch(`${BASE_URL_PROD}${endpoint}`, options);
     return await handleResponse(response);
   } catch (error) {
-    throw error;
+    if (!error.response) {
+      error.response = {
+        status: error.status || 500,
+        statusText: error.message || 'Error de conexión',
+        data: error.data || {}
+      };
+    }
+
+    errorHandler.handleError(error.response, error.response.status);
+    return Promise.reject(error);
   }
 };
 
@@ -62,3 +71,5 @@ export const api = {
   put: createApiMethod('PUT'),
   delete: createApiMethod('DELETE'),
 };
+
+export { errorHandler };
