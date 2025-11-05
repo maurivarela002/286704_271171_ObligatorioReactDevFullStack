@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import {
@@ -9,48 +10,68 @@ import {
     Alert,
     Divider,
     Avatar,
-    CircularProgress
+    CircularProgress,
+    InputAdornment,
+    IconButton
 } from '@mui/material';
 import LoginIcon from '@mui/icons-material/Login';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import LanguageSwitcher from '../../components/LanguageSwitcher';
 import clodeIcon from '../../assets/img/clode-icon.jpg';
 import { api } from '../../api/auth/apiManage';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { getLoginSchema } from '../../validations/authValidations';
 
 const Login = () => {
-    const { t } = useTranslation('auth');
+    const { t } = useTranslation(['auth', 'shared']);
     const navigate = useNavigate();
+    const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState(false);
     const [loading, setLoading] = useState(false);
 
-    const user = useRef(null);
-    const pass = useRef(null);
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+        setError: setFormError,
+        clearErrors
+    } = useForm({
+        defaultValues: {
+            username: '',
+            password: ''
+        },
+        resolver: yupResolver(getLoginSchema(t))
+    });
 
     useEffect(() => {
         localStorage.clear();
-    }, [])
+    }, []);
 
-    const ingresar = async () => {
+    const onSubmit = async (data) => {
         setLoading(true);
         setError(false);
-        const campoUser = user.current?.value;
-        const campoPass = pass.current?.value;
+        clearErrors('apiError');
 
         try {
             const response = await api.post('/v1/auth/login', {
-                username: campoUser,
-                password: campoPass
+                username: data.username,
+                password: data.password
             });
 
             localStorage.setItem('token', response.token);
-            localStorage.setItem('user', campoUser);
-
+            localStorage.setItem('user', data.username);
             navigate('/dashboard');
         } catch (error) {
             setError(true);
+            setFormError('apiError', {
+                type: 'manual',
+                message: t('login.error')
+            });
         } finally {
             setLoading(false);
         }
-    }
+    };
 
     const paperStyle = {
         p: { xs: 3, md: 4 },
@@ -110,45 +131,77 @@ const Login = () => {
                     </Box>
                 </Box>
 
-                {error && (
-                    <Alert severity="error" onClose={() => setError(false)} sx={{ mb: 2 }}>
-                        {t('login.error')}
-                    </Alert>
-                )}
+                <form onSubmit={handleSubmit(onSubmit)} noValidate>
+                    {(error || errors.apiError) && (
+                        <Alert
+                            severity="error"
+                            onClose={() => {
+                                setError(false);
+                                clearErrors('apiError');
+                            }}
+                            sx={{ mb: 2 }}
+                        >
+                            {errors.apiError?.message || t('login.error')}
+                        </Alert>
+                    )}
 
-                <TextField
-                    label={t('login.username')}
-                    variant="outlined"
-                    fullWidth
-                    inputRef={user}
-                />
+                    <TextField
+                        label={t('login.username')}
+                        variant="outlined"
+                        fullWidth
+                        margin="normal"
+                        error={!!errors.username}
+                        helperText={errors.username?.message}
+                        {...register('username')}
+                    />
 
-                <TextField
-                    label={t('login.password')}
-                    type="password"
-                    variant="outlined"
-                    fullWidth
-                    inputRef={pass}
-                />
+                    <TextField
+                        label={t('login.password')}
+                        type={showPassword ? 'text' : 'password'}
+                        variant="outlined"
+                        fullWidth
+                        margin="normal"
+                        error={!!errors.password}
+                        helperText={errors.password?.message}
+                        {...register('password')}
+                        InputProps={{
+                            endAdornment: (
+                                <InputAdornment position="end">
+                                    <IconButton
+                                        onClick={() => setShowPassword(!showPassword)}
+                                        edge="end"
+                                        sx={{
+                                            '&:hover': {
+                                                backgroundColor: 'action.hover',
+                                            }
+                                        }}
+                                    >
+                                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                                    </IconButton>
+                                </InputAdornment>
+                            ),
+                        }}
+                    />
 
-                <Button
-                    variant="contained"
-                    color="secondary"
-                    fullWidth
-                    size="large"
-                    onClick={ingresar}
-                    startIcon={loading ? <CircularProgress size={20} color="inherit" /> : <LoginIcon />}
-                    disabled={loading}
-                    sx={{
-                        mt: 2,
-                        py: 1.5,
-                        '&:hover': {
-                            backgroundColor: 'secondary.dark'
-                        }
-                    }}
-                >
-                    {loading ? t('common.loading') : t('login.loginButton')}
-                </Button>
+                    <Button
+                        type="submit"
+                        variant="contained"
+                        color="secondary"
+                        fullWidth
+                        size="large"
+                        disabled={loading}
+                        startIcon={loading ? <CircularProgress size={20} color="inherit" /> : <LoginIcon />}
+                        sx={{
+                            mt: 2,
+                            py: 1.5,
+                            '&:hover': {
+                                backgroundColor: 'secondary.dark'
+                            }
+                        }}
+                    >
+                        {loading ? t('common.loading') : t('login.loginButton')}
+                    </Button>
+                </form>
 
                 <Divider sx={{ my: 1 }}>{t('login.divider')}</Divider>
 

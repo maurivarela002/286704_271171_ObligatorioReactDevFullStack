@@ -20,16 +20,18 @@
     "alreadyHaveAccount": "Already have an account?",
     "loginLink": "Sign in",
     "errors": {
+      "registrationFailed": "Registration failed",
       "allFieldsRequired": "All fields are required",
       "invalidEmail": "Invalid email",
       "passwordTooShort": "Password must be at least 6 characters",
       "passwordsDoNotMatch": "Passwords do not match"
     },
-    "success": "Registration successful! Redirecting to login..."
+    "success": "Registration successful! Redirecting to login...",
+    "haveAccount": "Already have an account?"
   },
   "common": {
-    "loading": "Cargando...",
+    "loading": "Loading...",
     "error": "Error",
-    "success": "Éxito"
+    "success": "Success"
   }
 }

@@ -1,4 +1,5 @@
-import { useRef, useState } from 'react';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { 
@@ -10,7 +11,9 @@ import {
     Alert,
     InputAdornment,
     IconButton,
-    Avatar
+    Avatar,
+    CircularProgress,
+    Divider
 } from '@mui/material';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import Visibility from '@mui/icons-material/Visibility';
@@ -18,65 +21,66 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import LanguageSwitcher from '../../components/LanguageSwitcher';
 import clodeIcon from '../../assets/img/clode-icon.jpg';
-import { useToast } from '../../utils/toast';
+import { api } from '../../api/auth/apiManage';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { getSignupSchema } from '../../validations/authValidations';
 
 const Signup = () => {
-
-    const { t } = useTranslation('auth');
-    const { showErrorToast, showSuccessToast } = useToast();
+    const { t } = useTranslation(['auth', 'shared']);
     const navigate = useNavigate();
-    const [error, setError] = useState(false);
-    const [loading, setLoading] = useState(false);
-    const [success, setSuccess] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
+    const [apiError, setApiError] = useState('');
+    const [loading, setLoading] = useState(false);
 
-    const user = useRef(null);
-    const email = useRef(null);
-    const pass = useRef(null);
-    const confirmPass = useRef(null);
+    const {
+        register,
+        handleSubmit,
+        watch,
+        setError: setFormError,
+        clearErrors,
+        formState: { errors }
+    } = useForm({
+        resolver: yupResolver(getSignupSchema(t)),
+        defaultValues: {
+            username: '',
+            email: '',
+            password: '',
+            confirmPassword: ''
+        }
+    });
 
-    const registrar = () => {
+    const onSubmit = async (data) => {
         setLoading(true);
-        const campoUser = user.current?.value;
-        const campoEmail = email.current?.value;
-        const campoPass = pass.current?.value;
-        const campoConfirmPass = confirmPass.current?.value;
+        setApiError('');
+        clearErrors('apiError');
 
-        if(!campoUser || !campoEmail || !campoPass || !campoConfirmPass){
-            setError(t('signup.errors.allFieldsRequired'));
+        try {
+            const registerResponse = await api.post('/v1/auth/register', {
+                username: data.username,
+                email: data.email,
+                password: data.password
+            });
+            
+            if (registerResponse.status === 201) {
+                const loginResponse = await api.post('/v1/auth/login', {
+                    username: data.username,
+                    password: data.password
+                });
+                
+                localStorage.setItem('token', loginResponse.token);
+                localStorage.setItem('user', data.username);
+                navigate('/dashboard');
+            }
+        } catch (error) {
+            setApiError(t('signup.errors.registrationFailed'));
+            setFormError('apiError', {
+                type: 'manual',
+                message: t('signup.errors.registrationFailed')
+            });
+        } finally {
             setLoading(false);
-            return;
         }
-
-        if(!campoEmail.includes('@')){
-            setError(t('signup.errors.invalidEmail'));
-            setLoading(false);
-            return;
-        }
-
-        if(campoPass.length < 6){
-            setError(t('signup.errors.passwordTooShort'));
-            setLoading(false);
-            return;
-        }
-
-        if(campoPass !== campoConfirmPass){
-            setError(t('signup.errors.passwordsDoNotMatch'));
-            setLoading(false);
-            return;
-        }
-
-        setTimeout(() => {
-            navigate('/login');
-            setLoading(false);
-        }, 500);
-    }
-
-    const handleKeyPress = (e) => {
-        if (e.key === 'Enter') {
-            registrar();
-        }
-    }
+    };
 
     const paperStyle = {
         p: { xs: 3, md: 4 },
@@ -150,126 +154,125 @@ const Signup = () => {
                     </Typography>
                 </Box>
                 
-                {error && (
-                    <Alert severity="error" onClose={() => setError(false)}>
-                        {error}
-                    </Alert>
-                )}
+                <form onSubmit={handleSubmit(onSubmit)} noValidate>
+                    {(apiError || errors.apiError) && (
+                        <Alert 
+                            severity="error" 
+                            onClose={() => {
+                                setApiError('');
+                                clearErrors('apiError');
+                            }}
+                            sx={{ mb: 2 }}
+                        >
+                            {apiError || errors.apiError?.message}
+                        </Alert>
+                    )}
 
-                {success && (
-                    <Alert severity="success">
-                        {t('signup.success')}
-                    </Alert>
-                )}
+                    <TextField
+                        label={t('signup.username')}
+                        variant="outlined"
+                        fullWidth
+                        margin="normal"
+                        error={!!errors.username}
+                        helperText={errors.username?.message}
+                        disabled={loading}
+                        {...register('username')}
+                    />
 
-                <TextField
-                    label={t('signup.username')}
-                    variant="outlined"
-                    fullWidth
-                    inputRef={user}
-                    disabled={loading}
-                />
+                    <TextField
+                        label={t('signup.email')}
+                        type="email"
+                        variant="outlined"
+                        fullWidth
+                        margin="normal"
+                        error={!!errors.email}
+                        helperText={errors.email?.message}
+                        disabled={loading}
+                        {...register('email')}
+                    />
 
-                <TextField
-                    label={t('signup.email')}
-                    type="email"
-                    variant="outlined"
-                    fullWidth
-                    inputRef={email}
-                    disabled={loading}
-                />
+                    <TextField
+                        label={t('signup.password')}
+                        type={showPassword ? 'text' : 'password'}
+                        variant="outlined"
+                        fullWidth
+                        margin="normal"
+                        error={!!errors.password}
+                        helperText={errors.password?.message}
+                        disabled={loading}
+                        {...register('password')}
+                        InputProps={{
+                            endAdornment: (
+                                <InputAdornment position="end">
+                                    <IconButton
+                                        onClick={() => setShowPassword(!showPassword)}
+                                        edge="end"
+                                        sx={{
+                                            '&:hover': {
+                                                backgroundColor: 'action.hover',
+                                            }
+                                        }}
+                                    >
+                                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                                    </IconButton>
+                                </InputAdornment>
+                            ),
+                        }}
+                    />
 
-                <TextField
-                    label={t('signup.password')}
-                    type={showPassword ? 'text' : 'password'}
-                    variant="outlined"
-                    fullWidth
-                    inputRef={pass}
-                    disabled={loading}
-                    InputProps={{
-                        endAdornment: (
-                            <InputAdornment position="end">
-                                <IconButton
-                                    onClick={() => setShowPassword(!showPassword)}
-                                    edge="end"
-                                    sx={{
-                                        '&:hover': {
-                                            backgroundColor: 'action.hover',
-                                        }
-                                    }}
-                                >
-                                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                                </IconButton>
-                            </InputAdornment>
-                        ),
-                    }}
-                />
+                    <TextField
+                        label={t('signup.confirmPassword')}
+                        type={showPassword ? 'text' : 'password'}
+                        variant="outlined"
+                        fullWidth
+                        margin="normal"
+                        error={!!errors.confirmPassword}
+                        helperText={errors.confirmPassword?.message}
+                        disabled={loading}
+                        {...register('confirmPassword')}
+                    />
 
-                <TextField
-                    label={t('signup.confirmPassword')}
-                    type={showPassword ? 'text' : 'password'}
-                    variant="outlined"
-                    fullWidth
-                    inputRef={confirmPass}
-                    disabled={loading}
-                    InputProps={{
-                        endAdornment: (
-                            <InputAdornment position="end">
-                                <IconButton
-                                    onClick={() => setShowPassword(!showPassword)}
-                                    edge="end"
-                                    sx={{
-                                        '&:hover': {
-                                            backgroundColor: 'action.hover',
-                                        }
-                                    }}
-                                >
-                                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                                </IconButton>
-                            </InputAdornment>
-                        ),
-                    }}
-                />
-
-                <Button
-                    variant="contained"
-                    color="secondary"
-                    fullWidth
-                    size="large"
-                    onClick={registrar}
-                    startIcon={loading ? <CircularProgress size={20} color="inherit" /> : <PersonAddIcon />}
-                    disabled={loading}
-                    sx={{ 
-                        mt: 1,
-                        py: 1.5,
-                        '&:hover': {
-                            backgroundColor: 'secondary.dark'
-                        }
-                    }}
-                >
-                    {loading ? t('common.loading') : t('signup.registerButton')}
-                </Button>
-
-                <Typography variant="body2" color="text.secondary" align="center">
-                    {t('signup.alreadyHaveAccount')}{' '}
-                    <Button 
-                        variant="text" 
-                        size="small"
-                        onClick={() => navigate('/')}
-                        sx={{ 
-                            p: 0, 
-                            minWidth: 'auto',
-                            textTransform: 'none',
-                            fontWeight: 600,
-                            color: 'primary.main'
+                    <Button
+                        type="submit"
+                        variant="contained"
+                        color="secondary"
+                        fullWidth
+                        size="large"
+                        disabled={loading}
+                        startIcon={loading ? <CircularProgress size={20} color="inherit" /> : <PersonAddIcon />}
+                        sx={{
+                            mt: 2,
+                            py: 1.5,
+                            '&:hover': {
+                                backgroundColor: 'secondary.dark'
+                            }
                         }}
                     >
-                        {t('signup.loginLink')}
+                        {loading ? t('common.loading') : t('signup.registerButton')}
                     </Button>
-                </Typography>
+                </form>
+
+                <Divider sx={{ my: 2 }}>{t('login.divider')}</Divider>
+
+                <Button
+                    variant="outlined"
+                    size="large"
+                    fullWidth
+                    onClick={() => navigate('/login')}
+                    sx={{
+                        py: 1.5,
+                        '&:hover': {
+                            transform: 'translateY(-1px)',
+                            boxShadow: 2,
+                        },
+                        transition: 'all 0.2s ease'
+                    }}
+                >
+                    {t('signup.haveAccount')}
+                </Button>
             </Paper>
         </Box>
-    )
-}
+    );
+};
 
-export default Signup
+export default Signup;
