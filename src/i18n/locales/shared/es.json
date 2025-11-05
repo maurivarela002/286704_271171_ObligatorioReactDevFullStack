@@ -61,5 +61,12 @@
       "title": "Guardado",
       "text": "Los cambios se han guardado correctamente."
     }
+  },
+  "validation": {
+    "required": "Este campo es obligatorio",
+    "minLength": "Debe tener al menos {{count}} caracteres",
+    "maxLength": "No debe exceder los {{count}} caracteres",
+    "validationEmail": "Ingresa un email válido",
+    "validationPassword": "La contraseña debe tener al menos 6 caracteres, una mayúscula, una minúscula, un número y un carácter especial"
   }
 }
