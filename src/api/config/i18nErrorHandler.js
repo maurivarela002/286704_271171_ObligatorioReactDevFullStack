@@ -5,20 +5,17 @@ export const useApiHandlers = () => {
   const { showErrorToast, showSuccessToast } = useToast();
   const { t } = useTranslation('shared');
 
-  const handleApiError = (error, defaultMessage = t('errorsHttp.serverError.text')) => {
-    console.log('error', error);
+  const handleApiError = (error) => {
     const errorData = error?.data || {};
-    const message = errorData.message || error.message || defaultMessage;
-    const title = errorData.title || t('errorsHttp.serverError.title');
-    
+    const message = t(`errorsHttp.${errorData.status}.text`) || error.message || t('errorsHttp.serverError.text');
+    const title = t(`errorsHttp.${errorData.status}.title`) || errorData.title || t('errorsHttp.serverError.title');
     showErrorToast(title, message);
     return { message, title };
   };
 
-  const handleApiSuccess = (response, defaultMessage = t('success.operation.text')) => {
-    console.log('response', response);
-    const message = response?.data?.message || defaultMessage;
-    const title = response?.data?.title || t('success.operation.title');
+  const handleApiSuccess = (response) => {
+    const message = response?.data?.message || t('success.200.text');
+    const title = response?.data?.title || t('success.200.title');
     
     showSuccessToast(title, message);
     return { message, title };

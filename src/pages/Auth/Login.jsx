@@ -35,7 +35,8 @@ const Login = () => {
         handleSubmit,
         formState: { errors },
         setError: setFormError,
-        clearErrors
+        clearErrors,
+        watch
     } = useForm({
         defaultValues: {
             username: '',
@@ -189,13 +190,17 @@ const Login = () => {
                         color="secondary"
                         fullWidth
                         size="large"
-                        disabled={loading}
+                        disabled={loading || watch('username') === '' || watch('password') === ''}
                         startIcon={loading ? <CircularProgress size={20} color="inherit" /> : <LoginIcon />}
                         sx={{
                             mt: 2,
                             py: 1.5,
                             '&:hover': {
                                 backgroundColor: 'secondary.dark'
+                            },
+                            '&:disabled': {
+                                bgcolor: 'grey.400',
+                                pointerEvents: 'none'
                             }
                         }}
                     >

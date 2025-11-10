@@ -11,16 +11,21 @@ import dashboardEn from './locales/dashboard/en.json';
 import sharedEs from './locales/shared/es.json';
 import sharedEn from './locales/shared/en.json';
 
+import reserveEs from './locales/reserve/es.json';
+import reserveEn from './locales/reserve/en.json';
+
 const resources = {
   es: {
     auth: authEs,
     dashboard: dashboardEs,
-    shared: sharedEs
+    shared: sharedEs,
+    reserve: reserveEs
   },
   en: {
     auth: authEn,
     dashboard: dashboardEn,
-    shared: sharedEn
+    shared: sharedEn,
+    reserve: reserveEn
   }
 };
 
@@ -31,7 +36,7 @@ i18n
     resources,
     fallbackLng: 'es',
     defaultNS: 'shared',
-    ns: ['auth', 'dashboard', 'shared'],
+    ns: ['auth', 'dashboard', 'shared', 'reserve'],
     
     interpolation: {
       escapeValue: false

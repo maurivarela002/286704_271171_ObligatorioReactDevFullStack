@@ -1,0 +1,49 @@
+{
+  "form": {
+    "title": "New Reservation",
+    "fields": {
+      "fechaReserva": "Time",
+      "especialidad": "Specialty",
+      "clinica": "Clinic",
+      "odontologo": "Dentist",
+      "paciente": "Patient"
+    },
+    "buttons": {
+      "submit": "Create Reservation",
+      "loading": "Creating...",
+      "cancel": "Cancel",
+      "update": "Update"
+    },
+    "errors": {
+      "required": "This field is required",
+      "maxReservas": "You can't add more reservations. Consider upgrading to a premium account.",
+      "create": "Error on creating the reservation",
+      "again": "Please try again."
+    },
+    "success": {
+      "title": "Success!",
+      "message": "The reservation was created successfully"
+    },
+    "selectOption": "Select an option",
+    "confirmDeleteTitle": "Confirm deletion",
+    "confirmDeleteMessage": "Are you sure you want to delete this reservation?",
+    "unknownPatient": "Unknown patient"
+  },
+  "table": {
+    "title": "List of Reservations",
+    "search": "Search",
+    "empty": "No reservations found",
+    "columns": {
+      "_id": "ID",
+      "especialidad": "Specialty",
+      "clinica": "Clinic",
+      "odontologo": "Dentist",
+      "paciente": "Patient",
+      "fechaReserva": "Time"
+    },
+    "errors": {
+      "load": "Error on loading the reservations",
+      "again": "Please try again."
+    }
+  }
+}

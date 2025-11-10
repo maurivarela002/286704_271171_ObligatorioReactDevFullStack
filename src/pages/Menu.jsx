@@ -36,7 +36,7 @@ const Menu = () => {
 
     return (
         <Box sx={{ display: 'flex' }}>
-            <AppBar position="absolute" sx={{ backgroundColor: 'primary.main', borderRadius: 0}}>
+            <AppBar position="fixed" sx={{ backgroundColor: 'primary.main', borderRadius: 0}}>
                 <Toolbar>
                     <Box sx={{ position: 'relative' }}>
                         <Avatar 

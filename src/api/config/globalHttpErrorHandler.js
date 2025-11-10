@@ -20,12 +20,12 @@ export class GlobalHttpErrorHandler extends HttpErrorHandler {
     return { message: error.message, status };
   }
 
-  handleSuccess(response) {
+  handleSuccess(response, status) {
     if (this.apiHandlers) {
       return this.apiHandlers.handleApiSuccess(response);
     }
     console.error('Handlers no inicializados. Llama a initHandlers() primero.');
-    return response;
+    return { data: response, status };
   }
 
   forbidden(res, error) {
@@ -45,11 +45,8 @@ export class GlobalHttpErrorHandler extends HttpErrorHandler {
   }
 
   success(res, data) {
-    const response = {
-      ...this.buildMessage({}, 'success', 200),
-      data
-    };
-    return this.handleSuccess(response);
+    const response = this.handleSuccess(data, 200);
+    return res.status(200).json(response);
   }
 
   other(res, error) {
@@ -73,6 +70,11 @@ export class GlobalHttpErrorHandler extends HttpErrorHandler {
   }
 
   sessionConflict(res, error) {
+    const response = this.handleError(error, 429);
+    return res.status(429).json(response);
+  }
+
+  conflict(res, error) {
     const response = this.handleError(error, 409);
     return res.status(409).json(response);
   }

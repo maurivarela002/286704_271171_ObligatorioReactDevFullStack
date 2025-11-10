@@ -1,0 +1,52 @@
+{
+  "form": {
+    "title": "Nueva Reserva",
+    "editTitle": "Editar Reserva",
+    "fields": {
+      "fechaReserva": "Fecha y Hora",
+      "especialidad": "Especialidad",
+      "clinica": "Clínica",
+      "odontologo": "Odontólogo",
+      "paciente": "Paciente"
+    },
+    "buttons": {
+      "submit": "Crear Reserva",
+      "loading": "Creando...",
+      "cancel": "Cancelar",
+      "update": "Actualizar"
+    },
+    "errors": {
+      "required": "Este campo es requerido",
+      "maxReservas": "No puede agregar más reservas. Considere actualizar a una cuenta premium.",
+      "create": "Error al crear la reserva",
+      "again": "Por favor, intente nuevamente."
+    },
+    "success": {
+      "title": "¡Éxito!",
+      "message": "La reserva se creó correctamente",
+      "update": "La reserva se actualizó correctamente",
+      "delete": "La reserva se eliminó correctamente"
+    },
+    "selectOption": "Seleccione una opción",
+    "confirmDeleteTitle": "Confirmar eliminación",
+    "confirmDeleteMessage": "¿Estás seguro de que deseas eliminar la reserva?",
+    "unknownPatient": "Paciente desconocido"
+  },
+  "table": {
+    "title": "Listado de Reservas",
+    "search": "Buscar",
+    "empty": "No hay reservas",
+    "columns": {
+      "_id": "ID",
+      "especialidad": "Especialidad",
+      "clinica": "Clínica",
+      "odontologo": "Odontólogo",
+      "paciente": "Paciente",
+      "fechaReserva": "Fecha"
+    },
+    "errors": {
+      "load": "Error al cargar las reservas",
+      "again": "Por favor, intente nuevamente."
+    }
+  }
+}

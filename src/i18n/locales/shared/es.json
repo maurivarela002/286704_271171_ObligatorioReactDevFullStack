@@ -16,19 +16,19 @@
     "success": "Éxito"
   },
   "errorsHttp": {
-    "forbidden": {
+    "403": {
       "title": "Permisos insuficientes",
       "text": "Al parecer no puedes realizar esta acción. Ponte en contacto con un administrador."
     },
-    "unauthorized": {
+    "401": {
       "title": "Credenciales inválidas",
       "text": "Para continuar contacta un administrador que compruebe las credenciales de autenticación."
     },
-    "serverError": {
+    "500": {
       "title": "Falló la conexión del servidor",
       "text": "¡Ups! Parece que algo salió mal. Espera unos instantes e intenta de nuevo."
     },
-    "other": {
+    "400": {
       "title": "¡Ups! Algo salió mal",
       "text": "Aguarda unos instantes e intenta de nuevo."
     },
@@ -40,20 +40,20 @@
       "title": "Error de datos",
       "text": "Lo sentimos, la solicitud no se pudo procesar debido a datos inválidos. Por favor, revisa la información proporcionada e inténtalo de nuevo."
     },
-    "sessionLimitExceeded": {
-      "title": "Alcanzaste el límite máximo de sesiones permitidas por usuario",
-      "text": "Si deseas modificar el límite, comunícate con un administrador"
+    "409": {
+      "title": "Usuario existente",
+      "text": "El usuario ya existe. Por favor, inténtalo de nuevo."
     },
-    "sessionConflict": {
-      "title": "Conflicto detectado",
-      "text": "La solicitud no pudo completarse debido a un conflicto. Verifica tus datos o contacta a un administrador"
+    "429": {
+      "title": "Límite de intentos superado",
+      "text": "Has superado el límite de intentos. Por favor, inténtalo de nuevo."
     }
   },
   "success": {
     "login": {
       "title": "Inicio de sesión exitoso"
     },
-    "operation": {
+    "200": {
       "title": "¡Éxito!",
       "text": "La operación se completó correctamente."
     },
@@ -68,5 +68,23 @@
     "maxLength": "No debe exceder los {{count}} caracteres",
     "validationEmail": "Ingresa un email válido",
     "validationPassword": "La contraseña debe tener al menos 6 caracteres, una mayúscula, una minúscula, un número y un carácter especial"
+  },
+  "table": {
+    "rowsPerPage": "Filas por página:",
+    "of": "de",
+    "noData": "No hay datos disponibles",
+    "loading": "Cargando datos...",
+    "previous": "Anterior",
+    "next": "Siguiente",
+    "first": "Primera",
+    "last": "Última",
+    "search": "Buscar...",
+    "clear": "Limpiar",
+    "selected": "seleccionado(s)",
+    "actions": {
+      "title": "Acciones",
+      "edit": "Editar",
+      "delete": "Eliminar"
+    }
   }
 }
