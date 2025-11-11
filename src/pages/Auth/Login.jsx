@@ -22,6 +22,7 @@ import clodeIcon from '../../assets/img/clode-icon.jpg';
 import { api } from '../../api/auth/apiManage';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { getLoginSchema } from '../../validations/authValidations';
+import { jwtDecode } from 'jwt-decode';
 
 const Login = () => {
     const { t } = useTranslation(['auth', 'shared']);
@@ -62,6 +63,8 @@ const Login = () => {
 
             localStorage.setItem('token', response.token);
             localStorage.setItem('user', data.username);
+            const userId = jwtDecode(response.token).id;
+            localStorage.setItem('userId', userId);
             navigate('/dashboard');
         } catch (error) {
             setError(true);

@@ -24,6 +24,7 @@ import clodeIcon from '../../assets/img/clode-icon.jpg';
 import { api } from '../../api/auth/apiManage';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { getSignupSchema } from '../../validations/authValidations';
+import { jwtDecode } from 'jwt-decode';
 
 const Signup = () => {
     const { t } = useTranslation(['auth', 'shared']);
@@ -59,15 +60,18 @@ const Signup = () => {
                 username: data.username,
                 email: data.email,
                 password: data.password
-            }, true).then((response) => {
+            }, true).then(async (response) => {
                 if(response.status === 201){
-                    const loginResponse = api.post('/v1/auth/login', {
+                    const loginResponse = await api.post('/v1/auth/login', {
                         username: data.username,
                         password: data.password
                     });
 
+                    console.log(loginResponse);
                     localStorage.setItem('token', loginResponse.token);
                     localStorage.setItem('user', data.username);
+                    const userId = jwtDecode(loginResponse.token).id;
+                    localStorage.setItem('userId', userId);
                     navigate('/dashboard');
                 }
             });

@@ -276,8 +276,8 @@ const ClodeTable = ({
               </TableRow>
             </TableHead>
             <TableBody>
-              {data.length > 0 ? (
-                data.map((row, rowIndex) => (
+              {filteredData.length > 0 ? (
+                filteredData.map((row, rowIndex) => (
                   <TableRow hover key={rowIndex}>
                     {headers.map((header) => (
                       <TableCell key={header.key}>

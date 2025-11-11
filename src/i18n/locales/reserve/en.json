@@ -22,12 +22,26 @@
     },
     "success": {
       "title": "Success!",
-      "message": "The reservation was created successfully"
+      "message": "The reservation was created successfully",
+      "update": "The reservation was updated successfully",
+      "delete": "The reservation was deleted successfully",
+      "create": "The reservation was created successfully"
     },
     "selectOption": "Select an option",
     "confirmDeleteTitle": "Confirm deletion",
     "confirmDeleteMessage": "Are you sure you want to delete this reservation?",
-    "unknownPatient": "Unknown patient"
+    "unknownPatient": "Unknown patient",
+    "filterDate": {
+      "title": "Filter by date",
+      "all": "All history",
+      "lastWeek": "Last week",
+      "lastMonth": "Last month",
+      "nextWeek": "Next week",
+      "nextMonth": "Next month",
+      "custom": "Custom range",
+      "startDate": "Start date",
+      "endDate": "End date"
+    }
   },
   "table": {
     "title": "List of Reservations",

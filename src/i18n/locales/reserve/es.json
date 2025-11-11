@@ -25,12 +25,24 @@
       "title": "¡Éxito!",
       "message": "La reserva se creó correctamente",
       "update": "La reserva se actualizó correctamente",
-      "delete": "La reserva se eliminó correctamente"
+      "delete": "La reserva se eliminó correctamente",
+      "create": "La reserva se creó correctamente"
     },
     "selectOption": "Seleccione una opción",
     "confirmDeleteTitle": "Confirmar eliminación",
     "confirmDeleteMessage": "¿Estás seguro de que deseas eliminar la reserva?",
-    "unknownPatient": "Paciente desconocido"
+    "unknownPatient": "Paciente desconocido",
+    "filterDate": {
+      "title": "Filtro por fecha",
+      "all": "Todo el histórico",
+      "lastWeek": "Última semana",
+      "lastMonth": "Último mes",
+      "nextWeek": "Próxima semana",
+      "nextMonth": "Próximo mes",
+      "custom": "Rango personalizado",
+      "startDate": "Fecha desde",
+      "endDate": "Fecha hasta"
+    }
   },
   "table": {
     "title": "Listado de Reservas",

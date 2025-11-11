@@ -3,7 +3,6 @@ import errorHandler from './api/config/globalHttpErrorHandler';
 import { useApiHandlers } from './api/config/i18nErrorHandler';
 import { Provider } from 'react-redux';
 import { store } from './store/store';
-import Menu from './pages/Menu';
 import Login from './pages/Auth/Login';
 import Signup from './pages/Auth/Signup';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';

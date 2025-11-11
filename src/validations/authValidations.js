@@ -26,7 +26,8 @@ export const getSignupSchema = (t) => {
       .string()
       .email(t('validation.validationEmail', { ns: 'shared' }))
       .required(t('validation.required', { ns: 'shared' }))
-      .matches(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, t('validation.validationEmail', { ns: 'shared' })),
+      .matches(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, t('validation.validationEmail', { ns: 'shared' }))
+      .max(20, t('validation.maxLength', { count: 20, ns: 'shared' })),
     password: yup
       .string()
       .required(t('validation.required', { ns: 'shared' }))
