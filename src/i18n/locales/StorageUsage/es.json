@@ -1,0 +1,50 @@
+{
+  "plus": {
+    "title": "Uso de almacenamiento Plus",
+    "usage": "{{percentage}}% de uso ({{count}} de {{max}} documentos)",
+    "limit": "Límite: {{max}} documentos"
+  },
+  "free": {
+    "title": "Plan Gratuito",
+    "usage": "{{count}}/{{max}} reservas utilizadas",
+    "limit": "Límite: {{max}} reservas"
+  },
+  "premium": {
+    "title": "Plan Premium",
+    "usage": "{{count}}/{{max}} reservas utilizadas",
+    "limit": "Límite: {{max}} reservas"
+  },
+  "status": {
+    "active": "activo",
+    "warning": "advertencia",
+    "exception": "límite"
+  },
+  "storage": {
+    "title": "Gestión de Reservas",
+    "error": {
+      "fetchingData": "Error al cargar la información de reservas. Por favor, intente nuevamente más tarde.",
+      "upgradeFailed": "No se pudo actualizar a Premium. Por favor, intente nuevamente más tarde."
+    },
+    "upgradeDialog": {
+      "title": "Actualizar a Premium",
+      "message": "¿Está seguro que desea actualizar a Premium para obtener hasta 200 reservas?",
+      "confirm": "Actualizar",
+      "cancel": "Cancelar"
+    },
+    "upgradeButton": "Actualizar a Premium",
+    "adminRequired": {
+      "title": "Se requiere administrador",
+      "message": "Necesitas ser administrador para actualizar cuentas a premium."
+    }
+  },
+  "title": "Gestión de Almacenamiento",
+  "upgradeToPremium": "Actualizar a Premium",
+  "error": {
+    "fetchingData": "Error al cargar la información de almacenamiento. Por favor, intente nuevamente más tarde.",
+    "upgradeFailed": "No se pudo actualizar a Premium. Por favor, intente nuevamente más tarde."
+  },
+  "upgradeDialog": {
+    "title": "Actualizar a Premium",
+    "message": "¿Está seguro de que desea actualizar a Premium? Esto le dará acceso a más almacenamiento y funciones adicionales."
+  }
+}

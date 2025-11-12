@@ -44,9 +44,9 @@ export const useToast = () => {
         draggable: true,
         style: {
           backgroundColor: theme.palette.background.paper,
-          color: theme.palette.primary.main,
+          color: theme.palette.success.main,
           border: '1px solid',
-          borderColor: theme.palette.primary.dark,
+          borderColor: theme.palette.success.dark,
         },
       }
     );

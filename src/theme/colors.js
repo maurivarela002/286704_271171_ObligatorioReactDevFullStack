@@ -42,7 +42,8 @@ export const colors = {
   
   background: {
     default: '#F7F9FB',   
-    paper: '#FFFFFF'      
+    paper: '#FFFFFF',
+    dark: '#2D9D90',     
   },
   
   text: {

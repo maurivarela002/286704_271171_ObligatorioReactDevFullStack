@@ -36,6 +36,7 @@ export const theme = createTheme({
     background: {
       default: colors.background.default,
       paper: colors.background.paper,
+      dark: colors.background.dark,
     },
   },
   components: {

@@ -6,13 +6,15 @@ import { store } from './store/store';
 import Login from './pages/Auth/Login';
 import Signup from './pages/Auth/Signup';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import Menu from './pages/Menu';
+import WorkspaceLayout from './layouts/WorkspaceLayout';
 import { ThemeProvider } from '@mui/material/styles';
 import { theme } from './theme/theme';
 import { I18nextProvider } from 'react-i18next';
 import i18n from './i18n/config';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 
 const App = () => {
   const { handleApiError, handleApiSuccess } = useApiHandlers();
@@ -27,14 +29,16 @@ const App = () => {
     <I18nextProvider i18n={i18n}>
       <ThemeProvider theme={theme}>
         <Provider store={store}>
+          <LocalizationProvider dateAdapter={AdapterDateFns}>
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<Navigate to="/login" replace />} />
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
-              <Route path="/dashboard" element={<Menu />} />
+              <Route path="/dashboard/*" element={<WorkspaceLayout />} />
             </Routes>
           </BrowserRouter>
+          </LocalizationProvider>
           <ToastContainer
             position="bottom-left"
             autoClose={2000}

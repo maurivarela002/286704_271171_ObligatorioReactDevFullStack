@@ -2,12 +2,12 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { 
-    Box, 
-    TextField, 
-    Button, 
-    Paper, 
-    Typography, 
+import {
+    Box,
+    TextField,
+    Button,
+    Paper,
+    Typography,
     Alert,
     InputAdornment,
     IconButton,
@@ -24,6 +24,7 @@ import clodeIcon from '../../assets/img/clode-icon.jpg';
 import { api } from '../../api/auth/apiManage';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { getSignupSchema } from '../../validations/authValidations';
+import { jwtDecode } from 'jwt-decode';
 
 const Signup = () => {
     const { t } = useTranslation(['auth', 'shared']);
@@ -55,22 +56,25 @@ const Signup = () => {
         clearErrors('apiError');
 
         try {
-            const registerResponse = await api.post('/v1/auth/register', {
+            await api.post('/v1/auth/signup', {
                 username: data.username,
                 email: data.email,
                 password: data.password
+            }, true).then(async (response) => {
+                if(response.status === 201){
+                    const loginResponse = await api.post('/v1/auth/login', {
+                        username: data.username,
+                        password: data.password
+                    });
+
+                    console.log(loginResponse);
+                    localStorage.setItem('token', loginResponse.token);
+                    localStorage.setItem('user', data.username);
+                    const userId = jwtDecode(loginResponse.token).id;
+                    localStorage.setItem('userId', userId);
+                    navigate('/dashboard');
+                }
             });
-            
-            if (registerResponse.status === 201) {
-                const loginResponse = await api.post('/v1/auth/login', {
-                    username: data.username,
-                    password: data.password
-                });
-                
-                localStorage.setItem('token', loginResponse.token);
-                localStorage.setItem('user', data.username);
-                navigate('/dashboard');
-            }
         } catch (error) {
             setApiError(t('signup.errors.registrationFailed'));
             setFormError('apiError', {
@@ -96,11 +100,11 @@ const Signup = () => {
     };
 
     return (
-        <Box 
-            sx={{ 
-                display: 'flex', 
-                justifyContent: 'center', 
-                alignItems: 'center', 
+        <Box
+            sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
                 minHeight: '100vh',
                 bgcolor: '#f0f7ff',
                 p: 2,
@@ -110,22 +114,22 @@ const Signup = () => {
                 transition: 'background-color 0.3s ease',
             }}
         >
-            <Box sx={{ 
+            <Box sx={{
                 position: 'absolute',
-                top: 16, 
-                right: 16, 
+                top: 16,
+                right: 16,
                 zIndex: 1
             }}>
                 <LanguageSwitcher />
             </Box>
-            <Paper 
-                elevation={3} 
+            <Paper
+                elevation={3}
                 sx={paperStyle}
             >
                 <IconButton
-                    sx={{ 
-                        position: 'absolute', 
-                        top: 8, 
+                    sx={{
+                        position: 'absolute',
+                        top: 8,
                         left: 8
                     }}
                     onClick={() => navigate('/')}
@@ -135,7 +139,7 @@ const Signup = () => {
 
                 <Box sx={{ textAlign: 'center', position: 'relative' }}>
                     <Box sx={{ position: 'relative', mb: 2 }}>
-                        <Avatar 
+                        <Avatar
                             src={clodeIcon}
                             alt="CLODE Logo"
                             sx={{
@@ -153,11 +157,11 @@ const Signup = () => {
                         {t('signup.title')}
                     </Typography>
                 </Box>
-                
+
                 <form onSubmit={handleSubmit(onSubmit)} noValidate>
                     {(apiError || errors.apiError) && (
-                        <Alert 
-                            severity="error" 
+                        <Alert
+                            severity="error"
                             onClose={() => {
                                 setApiError('');
                                 clearErrors('apiError');
@@ -238,13 +242,17 @@ const Signup = () => {
                         color="secondary"
                         fullWidth
                         size="large"
-                        disabled={loading}
+                        disabled={loading || watch('password') !== watch('confirmPassword')}
                         startIcon={loading ? <CircularProgress size={20} color="inherit" /> : <PersonAddIcon />}
                         sx={{
                             mt: 2,
                             py: 1.5,
                             '&:hover': {
                                 backgroundColor: 'secondary.dark'
+                            },
+                            '&:disabled': {
+                                bgcolor: 'grey.400',
+                                pointerEvents: 'none'
                             }
                         }}
                     >

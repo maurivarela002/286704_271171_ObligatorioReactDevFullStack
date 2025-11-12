@@ -13,22 +13,24 @@
     "search": "Search",
     "loading": "Loading...",
     "error": "Error",
-    "success": "Success"
+    "success": "Success",
+    "confirm": "Confirm",
+    "close": "Close"
   },
   "errorsHttp": {
-    "forbidden": {
+    "403": {
       "title": "Insufficient permissions",
       "text": "Apparently, you are unable to perform this action. Contact an administrator."
     },
-    "unauthorized": {
+    "401": {
       "title": "Invalid credentials",
       "text": "To continue, contact an administrator to check your authentication credentials."
     },
-    "serverError": {
+    "500": {
       "title": "Server connection failed",
       "text": "Oops! Looks like something went wrong. Wait a few minutes and try again."
     },
-    "other": {
+    "400": {
       "title": "Oops! Something went wrong",
       "text": "Wait a few minutes and try again."
     },
@@ -40,13 +42,13 @@
       "title": "Data error",
       "text": "Sorry, the request could not be processed due to invalid data. Please review the information provided and try again."
     },
-    "sessionLimitExceeded": {
-      "title": "You have reached the maximum number of sessions allowed per user",
-      "text": "To change the limit, contact an administrator"
+    "409": {
+      "title": "User already exists",
+      "text": "The user already exists. Please try again."
     },
-    "sessionConflict": {
-      "title": "Conflict detected",
-      "text": "The request could not be completed due to a conflict. Please check your data or contact an administrator"
+    "429": {
+      "title": "Limit of attempts exceeded",
+      "text": "You have exceeded the limit of attempts. Please try again."
     }
   },
   "success": {
@@ -65,5 +67,23 @@
     "maxLength": "Must not exceed {{count}} characters",
     "validationEmail": "Enter a valid email address",
     "validationPassword": "The password must be at least 6 characters long, contain at least one uppercase letter, one lowercase letter, one number, and one special character"
+  },
+  "table": {
+    "rowsPerPage": "Rows per page:",
+    "of": "of",
+    "noData": "No data available",
+    "loading": "Loading data...",
+    "previous": "Previous",
+    "next": "Next",
+    "first": "First",
+    "last": "Last",
+    "search": "Search...",
+    "clear": "Clear",
+    "selected": "selected",
+    "actions": {
+      "title": "Actions",
+      "edit": "Edit",
+      "delete": "Delete"
+    }
   }
 }

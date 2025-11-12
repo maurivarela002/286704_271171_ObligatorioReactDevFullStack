@@ -1,0 +1,65 @@
+{
+  "form": {
+    "limitReached": "Has alcanzado el límite de reservas.",
+    "title": "Nueva Reserva",
+    "editTitle": "Editar Reserva",
+    "fields": {
+      "fechaReserva": "Fecha y Hora",
+      "especialidad": "Especialidad",
+      "clinica": "Clínica",
+      "odontologo": "Odontólogo",
+      "paciente": "Paciente"
+    },
+    "buttons": {
+      "submit": "Crear Reserva",
+      "loading": "Creando...",
+      "cancel": "Cancelar",
+      "update": "Actualizar"
+    },
+    "errors": {
+      "required": "Este campo es requerido",
+      "maxReservas": "No puede agregar más reservas. Considere actualizar a una cuenta premium.",
+      "create": "Error al crear la reserva",
+      "again": "Por favor, intente nuevamente."
+    },
+    "success": {
+      "title": "¡Éxito!",
+      "message": "La reserva se creó correctamente",
+      "update": "La reserva se actualizó correctamente",
+      "delete": "La reserva se eliminó correctamente",
+      "create": "La reserva se creó correctamente"
+    },
+    "selectOption": "Seleccione una opción",
+    "confirmDeleteTitle": "Confirmar eliminación",
+    "confirmDeleteMessage": "¿Estás seguro de que deseas eliminar la reserva?",
+    "unknownPatient": "Paciente desconocido",
+    "filterDate": {
+      "title": "Filtro por fecha",
+      "all": "Todo el histórico",
+      "lastWeek": "Última semana",
+      "lastMonth": "Último mes",
+      "nextWeek": "Próxima semana",
+      "nextMonth": "Próximo mes",
+      "custom": "Rango personalizado",
+      "startDate": "Fecha desde",
+      "endDate": "Fecha hasta"
+    }
+  },
+  "table": {
+    "title": "Listado de Reservas",
+    "search": "Buscar",
+    "empty": "No hay reservas",
+    "columns": {
+      "_id": "ID",
+      "especialidad": "Especialidad",
+      "clinica": "Clínica",
+      "odontologo": "Odontólogo",
+      "paciente": "Paciente",
+      "fechaReserva": "Fecha"
+    },
+    "errors": {
+      "load": "Error al cargar las reservas",
+      "again": "Por favor, intente nuevamente."
+    }
+  }
+}

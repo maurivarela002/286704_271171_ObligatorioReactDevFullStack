@@ -1,0 +1,10 @@
+{
+  "title": "Estadísticas",
+  "charts": {
+    "specialty": "Reservas por Especialidad",
+    "clinic": "Reservas por Clínica",
+    "dentist": "Reservas por Odontólogo",
+    "reservationsTitle": "Estadísticas de Reservas"
+  },
+  "noData": "No hay datos disponibles"
+}

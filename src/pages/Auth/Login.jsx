@@ -22,6 +22,7 @@ import clodeIcon from '../../assets/img/clode-icon.jpg';
 import { api } from '../../api/auth/apiManage';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { getLoginSchema } from '../../validations/authValidations';
+import { jwtDecode } from 'jwt-decode';
 
 const Login = () => {
     const { t } = useTranslation(['auth', 'shared']);
@@ -35,7 +36,8 @@ const Login = () => {
         handleSubmit,
         formState: { errors },
         setError: setFormError,
-        clearErrors
+        clearErrors,
+        watch
     } = useForm({
         defaultValues: {
             username: '',
@@ -61,6 +63,8 @@ const Login = () => {
 
             localStorage.setItem('token', response.token);
             localStorage.setItem('user', data.username);
+            const userId = jwtDecode(response.token).id;
+            localStorage.setItem('userId', userId);
             navigate('/dashboard');
         } catch (error) {
             setError(true);
@@ -189,13 +193,17 @@ const Login = () => {
                         color="secondary"
                         fullWidth
                         size="large"
-                        disabled={loading}
+                        disabled={loading || watch('username') === '' || watch('password') === ''}
                         startIcon={loading ? <CircularProgress size={20} color="inherit" /> : <LoginIcon />}
                         sx={{
                             mt: 2,
                             py: 1.5,
                             '&:hover': {
                                 backgroundColor: 'secondary.dark'
+                            },
+                            '&:disabled': {
+                                bgcolor: 'grey.400',
+                                pointerEvents: 'none'
                             }
                         }}
                     >
