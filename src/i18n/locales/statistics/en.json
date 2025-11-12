@@ -1,0 +1,10 @@
+{
+  "title": "Statistics",
+  "charts": {
+    "specialty": "Reservations by Specialty",
+    "clinic": "Reservations by Clinic",
+    "dentist": "Reservations by Dentist",
+    "reservationsTitle": "Reservations Statistics"
+  },
+  "noData": "No data available"
+}

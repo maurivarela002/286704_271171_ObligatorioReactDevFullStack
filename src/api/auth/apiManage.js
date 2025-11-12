@@ -34,21 +34,37 @@ apiClient.interceptors.response.use(
   },
   (error) => {
     if (error.response) {
-      errorHandler.handleError(
-        error.response.data || error.response,
-        error.response.status
-      );
-    } else {
-      const customError = {
-        response: {
-          status: error.status || 500,
-          statusText: error.message || 'Error de conexión',
-          data: error.data || {}
-        }
+      const { data, status, statusText } = error.response;
+      const errorMessage = data?.message || statusText || 'Error del servidor';
+
+      const formattedError = {
+        message: errorMessage,
+        status: status,
+        data: data,
+        statusText: statusText
       };
-      errorHandler.handleError(customError.response, customError.response.status);
+
+      errorHandler.handleError(formattedError, status);
+      return Promise.reject(formattedError);
     }
-    return Promise.reject(error);
+    else if (error.request) {
+      const networkError = {
+        message: 'Error de conexión',
+        status: 0,
+        data: { message: 'No se pudo conectar al servidor' }
+      };
+      errorHandler.handleError(networkError, 0);
+      return Promise.reject(networkError);
+    }
+    else {
+      const configError = {
+        message: error.message || 'Error en la configuración de la petición',
+        status: 400,
+        data: { message: error.message }
+      };
+      errorHandler.handleError(configError, 400);
+      return Promise.reject(configError);
+    }
   }
 );
 

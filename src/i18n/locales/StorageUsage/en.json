@@ -1,0 +1,50 @@
+{
+  "plus": {
+    "title": "Plus Storage Usage",
+    "usage": "{{percentage}}% used ({{count}} of {{max}} documents)",
+    "limit": "Limit: {{max}} documents"
+  },
+  "premium": {
+    "title": "Premium Plan",
+    "usage": "{{count}}/{{max}} reservations used",
+    "limit": "Limit: {{max}} reservations"
+  },
+  "free": {
+    "title": "Free Plan",
+    "usage": "{{count}}/{{max}} reservations used",
+    "limit": "Limit: {{max}} reservations"
+  },
+  "status": {
+    "active": "active",
+    "warning": "warning",
+    "exception": "limit"
+  },
+  "storage": {
+    "title": "Reservation Management",
+    "error": {
+      "fetchingData": "Error loading reservation information. Please try again later.",
+      "upgradeFailed": "Failed to upgrade to Premium. Please try again later."
+    },
+    "upgradeDialog": {
+      "title": "Upgrade to Premium",
+      "message": "Are you sure you want to upgrade to Premium to get up to 200 reservations?",
+      "confirm": "Upgrade",
+      "cancel": "Cancel"
+    },
+    "upgradeButton": "Upgrade to Premium",
+    "adminRequired": {
+      "title": "Admin Required",
+      "message": "You need to be an administrator to upgrade accounts to premium."
+    }
+  },
+  "title": "Storage Management",
+  "upgradeToPremium": "Upgrade to Premium",
+  "error": {
+    "fetchingData": "Error loading your storage information. Please try again later.",
+    "upgradeFailed": "Failed to upgrade to premium. Please try again later."
+  },
+  "upgradeDialog": {
+    "title": "Upgrade to Premium",
+    "message": "Are you sure you want to upgrade to Premium? This will give you access to more storage and additional features."
+  }
+}

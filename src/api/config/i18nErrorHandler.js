@@ -6,6 +6,14 @@ export const useApiHandlers = () => {
   const { t } = useTranslation('shared');
 
   const handleApiError = (error) => {
+    if (!error) {
+      console.error('Error no definido');
+      return { 
+        message: t('errorsHttp.serverError.text'),
+        title: t('errorsHttp.serverError.title')
+      };
+    }
+    
     const errorData = error?.data || {};
     const message = t(`errorsHttp.${errorData.status}.text`) || error.message || t('errorsHttp.serverError.text');
     const title = t(`errorsHttp.${errorData.status}.title`) || errorData.title || t('errorsHttp.serverError.title');

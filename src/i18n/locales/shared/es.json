@@ -13,7 +13,9 @@
     "search": "Buscar",
     "loading": "Cargando...",
     "error": "Error",
-    "success": "Éxito"
+    "success": "Éxito",
+    "confirm": "Confirmar",
+    "close": "Cerrar"
   },
   "errorsHttp": {
     "403": {

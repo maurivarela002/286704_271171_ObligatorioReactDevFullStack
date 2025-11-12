@@ -1,11 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
+    user:{},
+    alcanzoLimiteReservas: false,
     listaReservas: [],
     listaEspecialidades: [],
     listaClinicas: [],
     listaOdontologos: [],
-    listaPacientes: [], 
 }
 
 
@@ -25,13 +26,23 @@ export const globalSlice = createSlice({
         cargarOdontologos: (state, action) => {
             state.listaOdontologos = action.payload
         },
-        cargarPacientes: (state, action) => {
-            state.listaPacientes = action.payload
+        cargarUser: (state, action) => {
+            state.user = action.payload
+        },
+        limiteReservas: (state, action) => {
+            state.alcanzoLimiteReservas = action.payload
         }
     }
 });
 
 
-export const { cargarReservas, cargarEspecialidades, cargarClinicas, cargarOdontologos, cargarPacientes } = globalSlice.actions;
+export const { 
+    cargarReservas, 
+    cargarEspecialidades, 
+    cargarClinicas, 
+    cargarOdontologos, 
+    cargarUser,
+    limiteReservas 
+} = globalSlice.actions;
 
 export default globalSlice.reducer;

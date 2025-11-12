@@ -1,5 +1,6 @@
 {
   "form": {
+    "limitReached": "Has alcanzado el límite de reservas.",
     "title": "Nueva Reserva",
     "editTitle": "Editar Reserva",
     "fields": {

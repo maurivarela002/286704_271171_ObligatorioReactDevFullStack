@@ -1,5 +1,6 @@
 {
   "form": {
+    "limitReached": "You have reached the limit of reservations.",
     "title": "New Reservation",
     "fields": {
       "fechaReserva": "Time",

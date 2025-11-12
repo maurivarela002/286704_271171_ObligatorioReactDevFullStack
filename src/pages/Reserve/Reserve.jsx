@@ -17,7 +17,8 @@ import {
     FormControl,
     InputLabel,
     Select,
-    Grid
+    Grid,
+    Tooltip 
 } from '@mui/material';
 import { DatePicker, DateTimePicker } from '@mui/x-date-pickers';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -28,7 +29,7 @@ import { getReserveSchema } from '../../validations/reserveValidations';
 import ClodeTable from '../../components/ClodeTable';
 import ClodeDialog from '../../components/ClodeDialog';
 import { useToast } from '../../utils/toast';
-import {cargarReservas, cargarEspecialidades, cargarClinicas, cargarOdontologos} from '../../store/slices/globalSlice';
+import { cargarReservas, cargarEspecialidades, cargarClinicas, cargarOdontologos, limiteReservas } from '../../store/slices/globalSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
 const Reserve = () => {
@@ -37,6 +38,8 @@ const Reserve = () => {
     const { listaEspecialidades } = useSelector(state => state.global);
     const { listaClinicas } = useSelector(state => state.global);
     const { listaOdontologos } = useSelector(state => state.global);
+    const { alcanzoLimiteReservas } = useSelector(state => state.global);
+    const { user } = useSelector(state => state.global);
     const [open, setOpen] = useState(false);
     const [loading, setLoading] = useState(false);
     const [editingReservation, setEditingReservation] = useState(null);
@@ -93,8 +96,12 @@ const Reserve = () => {
             });
 
             dispatch(cargarReservas(responseMap));
+            if (!user.premium) {
+                dispatch(limiteReservas(response.length >= 10));
+            }else{
+                dispatch(limiteReservas(false));
+            }
         } catch (err) {
-            console.log(err);
             showErrorToast(t('table.errors.load'), t('table.errors.again'));
         } finally {
             setLoading(false);
@@ -193,7 +200,6 @@ const Reserve = () => {
             default:
                 break;
         }
-
         return filtered;
     }, [dateFilter, startDate, endDate, listaReservas]);
 
@@ -228,7 +234,8 @@ const Reserve = () => {
             }
 
             handleClose();
-            fetchReservations();
+            await fetchReservations();
+
         } catch (error) {
             setError(true);
         } finally {
@@ -261,7 +268,7 @@ const Reserve = () => {
         try {
             await api.delete(`/v1/reservas/${deleteDialog.reservation._id}`);
             showSuccessToast(t('form.success.delete', { ns: 'reserve' }));
-            fetchReservations();
+            await fetchReservations();
         } catch (error) {
             showErrorToast(t('form.errors.delete', { ns: 'reserve' }));
         } finally {
@@ -272,14 +279,26 @@ const Reserve = () => {
     return (
         <Box>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-                <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleOpen}
-                    disabled={loading}
+                <Tooltip
+                    title={
+                        !user.premium && alcanzoLimiteReservas
+                            ? t('form.limitReached', { ns: 'reserve' })
+                            : loading
+                                ? t('common.loading')
+                                : ''
+                    }
                 >
-                    {t('form.title', { ns: 'reserve' })}
-                </Button>
+                    <span>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={handleOpen}
+                            disabled={!user.premium && (alcanzoLimiteReservas || loading)}
+                        >
+                            {t('form.title', { ns: 'reserve' })}
+                        </Button>
+                    </span>
+                </Tooltip>
             </Box>
 
             {error && (
@@ -345,7 +364,7 @@ const Reserve = () => {
 
 
             <ClodeTable
-                data={filteredReservations }
+                data={filteredReservations}
                 headers={columns}
                 loading={loading}
                 title={t('table.title')}
