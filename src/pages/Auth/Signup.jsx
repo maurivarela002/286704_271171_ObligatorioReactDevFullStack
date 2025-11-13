@@ -62,7 +62,7 @@ const Signup = () => {
                 username: data.username,
                 email: data.email,
                 password: data.password,
-                profileImage: profileImage || ''
+                urlImage: profileImage || ''
             }, true).then(async (response) => {
                 if(response.status === 201){
                     const loginResponse = await api.post('/v1/auth/login', {
