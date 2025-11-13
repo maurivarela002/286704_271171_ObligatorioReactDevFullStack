@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import ImageUploader from '../../components/ImageUploader';
 import {
     Box,
     TextField,
@@ -32,6 +33,7 @@ const Signup = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [apiError, setApiError] = useState('');
     const [loading, setLoading] = useState(false);
+    const [profileImage, setProfileImage] = useState('');
 
     const {
         register,
@@ -59,7 +61,8 @@ const Signup = () => {
             await api.post('/v1/auth/signup', {
                 username: data.username,
                 email: data.email,
-                password: data.password
+                password: data.password,
+                profileImage: profileImage || ''
             }, true).then(async (response) => {
                 if(response.status === 201){
                     const loginResponse = await api.post('/v1/auth/login', {
@@ -235,6 +238,16 @@ const Signup = () => {
                         disabled={loading}
                         {...register('confirmPassword')}
                     />
+
+                    <Box sx={{ mt: 2, mb: 1 }}>
+                        <Typography variant="subtitle2" gutterBottom>
+                            {t('signup.profileImage')}
+                        </Typography>
+                        <ImageUploader 
+                            onUpload={(url) => setProfileImage(url)} 
+                            disabled={loading}
+                        />
+                    </Box>
 
                     <Button
                         type="submit"

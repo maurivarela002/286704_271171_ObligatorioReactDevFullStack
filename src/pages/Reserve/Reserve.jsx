@@ -18,7 +18,7 @@ import {
     InputLabel,
     Select,
     Grid,
-    Tooltip 
+    Tooltip
 } from '@mui/material';
 import { DatePicker, DateTimePicker } from '@mui/x-date-pickers';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -29,7 +29,7 @@ import { getReserveSchema } from '../../validations/reserveValidations';
 import ClodeTable from '../../components/ClodeTable';
 import ClodeDialog from '../../components/ClodeDialog';
 import { useToast } from '../../utils/toast';
-import { cargarReservas, cargarEspecialidades, cargarClinicas, cargarOdontologos, limiteReservas } from '../../store/slices/globalSlice';
+import { cargarReservas, cargarEspecialidades, cargarClinicas, cargarOdontologos, limiteReservas, agregarReserva, actualizarReserva, eliminarReserva } from '../../store/slices/globalSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
 const Reserve = () => {
@@ -57,9 +57,9 @@ const Reserve = () => {
         resolver: yupResolver(getReserveSchema(t)),
         defaultValues: {
             fechaReserva: new Date(),
-            especialidadId: '',
-            clinicaId: '',
-            odontologoId: '',
+            especialidad: { _id: '', nombre: '' },
+            clinica: { _id: '', nombre: '' },
+            odontologo: { _id: '', nombre: '', apellido: '' },
             pacienteId: ''
         }
     });
@@ -94,11 +94,10 @@ const Reserve = () => {
                     especialidad: item.especialidad?.nombre || '-',
                 };
             });
-
             dispatch(cargarReservas(responseMap));
             if (!user.premium) {
                 dispatch(limiteReservas(response.length >= 10));
-            }else{
+            } else {
                 dispatch(limiteReservas(false));
             }
         } catch (err) {
@@ -135,6 +134,7 @@ const Reserve = () => {
 
     const filteredReservations = useMemo(() => {
         if (!listaReservas.length) return;
+        dispatch(limiteReservas(listaReservas.length >= 10));
 
         let filtered = [...listaReservas];
         const today = new Date();
@@ -216,26 +216,45 @@ const Reserve = () => {
         reset();
     };
 
-    const onSubmit = async (data) => {
+    const onError = (errors) => {
+        console.error('Errores de validación:', errors);
+    };
+
+    const onSubmit = async (formData) => {
         setLoading(true);
         try {
-            const reservaData = {
-                ...data,
-                fechaReserva: data.fechaReserva.toISOString(),
+            const apiPayload = {
+                fechaReserva: formData.fechaReserva.toISOString(),
+                especialidadId: formData.especialidad._id,
+                clinicaId: formData.clinica._id,
+                odontologoId: formData.odontologo._id,
                 pacienteId: localStorage.getItem('userId')
             };
 
+            const displayReserva = {
+                fechaReserva: formData.fechaReserva.toISOString(),
+                especialidad: formData.especialidad,
+                clinica: formData.clinica,
+                odontologo: formData.odontologo
+            };
+
             if (editingReservation) {
-                await api.put(`/v1/reservas/${editingReservation._id}`, reservaData);
+                await api.put(`/v1/reservas/${editingReservation._id}`, apiPayload);
+                dispatch(actualizarReserva({
+                    ...displayReserva,
+                    _id: editingReservation._id
+                }));
                 showSuccessToast(t('form.success.update', { ns: 'reserve' }));
             } else {
-                await api.post('/v1/reservas', reservaData);
+                const response = await api.post('/v1/reservas', apiPayload);
+                dispatch(agregarReserva({
+                    ...displayReserva,
+                    _id: response.id
+                }));
                 showSuccessToast(t('form.success.create', { ns: 'reserve' }));
             }
 
             handleClose();
-            await fetchReservations();
-
         } catch (error) {
             setError(true);
         } finally {
@@ -246,12 +265,11 @@ const Reserve = () => {
     const handleEdit = (reservation) => {
         setEditingReservation(reservation);
         reset({
-            fechaReserva: new Date(reservation.fechaReserva),
-            especialidadId: reservation.especialidad?._id || '',
-            clinicaId: reservation.clinica?._id || '',
-            odontologoId: reservation.odontologo?._id || '',
-            pacienteId: reservation.paciente?._id || ''
-        });
+        fechaReserva: new Date(reservation.fechaReserva),
+        especialidad: reservation.especialidad,
+        clinica: reservation.clinica,
+        odontologo: reservation.odontologo
+    });
         setOpen(true);
     };
 
@@ -267,8 +285,8 @@ const Reserve = () => {
 
         try {
             await api.delete(`/v1/reservas/${deleteDialog.reservation._id}`);
+            dispatch(eliminarReserva(deleteDialog.reservation._id));
             showSuccessToast(t('form.success.delete', { ns: 'reserve' }));
-            await fetchReservations();
         } catch (error) {
             showErrorToast(t('form.errors.delete', { ns: 'reserve' }));
         } finally {
@@ -382,7 +400,7 @@ const Reserve = () => {
                         </IconButton>
                     </Box>
                 </DialogTitle>
-                <form onSubmit={handleSubmit(onSubmit)}>
+                <form onSubmit={handleSubmit(onSubmit, onError)}>
                     <DialogContent>
                         <LocalizationProvider dateAdapter={AdapterDateFns}>
                             <Box sx={{ display: 'grid', gap: 2, mt: 1 }}>
@@ -403,10 +421,13 @@ const Reserve = () => {
                                 <TextField
                                     select
                                     label={t('form.fields.especialidad')}
-                                    {...register('especialidadId')}
-                                    value={watch('especialidadId')}
-                                    error={!!errors.especialidadId}
-                                    helperText={errors.especialidadId?.message}
+                                    value={watch('especialidad._id') || ''}
+                                    onChange={(e) => {
+                                        const selected = listaEspecialidades.find(esp => esp._id === e.target.value);
+                                        setValue('especialidad', selected || { _id: '', nombre: '' }, { shouldValidate: true });
+                                    }}
+                                    error={!!errors.especialidad?._id}
+                                    helperText={errors.especialidad?._id?.message}
                                     fullWidth
                                 >
                                     {listaEspecialidades.map((especialidad) => (
@@ -419,10 +440,13 @@ const Reserve = () => {
                                 <TextField
                                     select
                                     label={t('form.fields.clinica')}
-                                    {...register('clinicaId')}
-                                    value={watch('clinicaId')}
-                                    error={!!errors.clinicaId}
-                                    helperText={errors.clinicaId?.message}
+                                    value={watch('clinica._id') || ''}
+                                    onChange={(e) => {
+                                        const selected = listaClinicas.find(clinica => clinica._id === e.target.value);
+                                        setValue('clinica', selected || { _id: '', nombre: '' }, { shouldValidate: true });
+                                    }}
+                                    error={!!errors.clinica?._id}
+                                    helperText={errors.clinica?._id?.message}
                                     fullWidth
                                 >
                                     {listaClinicas.map((clinica) => (
@@ -435,10 +459,13 @@ const Reserve = () => {
                                 <TextField
                                     select
                                     label={t('form.fields.odontologo')}
-                                    {...register('odontologoId')}
-                                    value={watch('odontologoId')}
-                                    error={!!errors.odontologoId}
-                                    helperText={errors.odontologoId?.message}
+                                    value={watch('odontologo._id') || ''}
+                                    onChange={(e) => {
+                                        const selected = listaOdontologos.find(odontologo => odontologo._id === e.target.value);
+                                        setValue('odontologo', selected || { _id: '', nombre: '', apellido: '' }, { shouldValidate: true });
+                                    }}
+                                    error={!!errors.odontologo?._id}
+                                    helperText={errors.odontologo?._id?.message}
                                     fullWidth
                                 >
                                     {listaOdontologos.map((odontologo) => (
@@ -457,7 +484,7 @@ const Reserve = () => {
                         <Button
                             type="submit"
                             variant="contained"
-                            disabled={loading || !isDirty}
+                            disabled={loading}
                         >
                             {loading ? (
                                 <CircularProgress size={24} />

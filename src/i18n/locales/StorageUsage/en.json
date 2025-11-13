@@ -17,7 +17,11 @@
   "status": {
     "active": "active",
     "warning": "warning",
-    "exception": "limit"
+    "exception": "limit",
+    "success": "success"
+  },
+  "success": {
+    "upgradePremium": "Upgrade to Premium successfully."
   },
   "storage": {
     "title": "Reservation Management",

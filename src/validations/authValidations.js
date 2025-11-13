@@ -35,6 +35,9 @@ export const getSignupSchema = (t) => {
       .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/, t('validation.validationPassword', { ns: 'shared' })),
     confirmPassword: yup
       .string()
-      .oneOf([yup.ref('password'), null], t('signup.errors.passwordsDoNotMatch', { ns: 'auth' }))
+      .oneOf([yup.ref('password'), null], t('signup.errors.passwordsDoNotMatch', { ns: 'auth' })),
+    profileImage: yup
+      .string()
+      .required(t('validation.required', { ns: 'shared' }))
   });
 };

@@ -9,9 +9,12 @@ import StorageUsage from '../../components/StorageUsage';
 import ClodeDialog from '../../components/ClodeDialog';
 import { cargarUser, limiteReservas } from '../../store/slices/globalSlice';
 import { useSelector } from 'react-redux';
+import { useToast } from '../../utils/toast';
 
 const StoragePage = () => {
   const { t } = useTranslation('StorageUsage');
+  const { showSuccessToast } = useToast();
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
@@ -19,7 +22,6 @@ const StoragePage = () => {
   const [showUpgradeDialog, setShowUpgradeDialog] = useState(false);
   const [upgrading, setUpgrading] = useState(false);
   const [isPremium, setIsPremium] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
   const [dialogContent, setDialogContent] = useState({
     title: '',
     message: '',
@@ -49,10 +51,11 @@ const StoragePage = () => {
               apellido: user.detalleId.apellido,
               userId: user.userId,
               admin: userAdmin,
-              premium: userPremium
+              premium: userPremium,
+              urlImage: user.detalleId.urlImage || ''
             }
           });
-          dispatch(cargarUser(user));
+          dispatch(cargarUser(user[0]));
         }
         setIsPremium(userPremium);
       } catch (err) {
@@ -77,6 +80,7 @@ const StoragePage = () => {
       }));
       dispatch(limiteReservas(true));
       setIsPremium(true);
+      showSuccessToast(t('storage.success.upgradePremium', { ns: 'StorageUsage' }));
     } catch (err) {
       console.log(err);
       setError(t('storage.error.upgradeFailed'));

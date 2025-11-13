@@ -5,7 +5,7 @@ const BASE_URL = 'http://localhost:3000';
 const BASE_URL_PROD = 'https://286704-271171-obligatorio-dev-full.vercel.app/';
 
 const apiClient = axios.create({
-  baseURL: BASE_URL,
+  baseURL: BASE_URL_PROD,
   headers: {
     'Content-Type': 'application/json',
   }
