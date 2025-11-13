@@ -2,28 +2,54 @@
 
 Aplicación web desarrollada con React para la gestión de consultorios odontológicos.
 
-## 🚀 Características
+## 🚀 Características Principales
 
-- Notificaciones toast personalizadas
-- Manejo centralizado de errores HTTP
-- Mensajes de error y éxito traducidos
+- **Autenticación**
+  - Inicio de sesión seguro
+  - Registro de nuevos usuarios
+  - Navegación protegida
 
-- Autenticación de usuarios (login/registro)
-- Interfaz responsiva con Material-UI
-- Internacionalización (español/inglés)
-- Tema personalizado con paleta de colores
-- Navegación protegida
+- **Gestión de Citas**
+  - Agendamiento de citas
+  - Visualización de disponibilidad
+  - Gestión de reservas
 
-## 🛠️ Tecnologías Utilizadas
+- **Estadísticas**
+  - Visualización de datos
+  - Reportes de actividad
+  - Métricas de consultorio
 
-- **Frontend:**
-  - React 18
-  - React Router v6
-  - Material-UI (MUI) v5
+- **Almacenamiento**
+  - Gestión de inventario
+  - Control de stock
+  - Seguimiento de productos
+
+- **Interfaz de Usuario**
+  - Diseño responsivo con Material-UI
+  - Tema personalizado
+  - Soporte para múltiples idiomas
+  - Notificaciones en tiempo real
+
+## 🛠️ Stack Tecnológico
+
+- **Frontend**
+  - React 18 con Hooks
+  - React Router v6 para navegación
+  - Material-UI (MUI) v5 para componentes UI
+  - Redux Toolkit para gestión de estado global
+  - React Hook Form para formularios
+  - Yup para validaciones
+  - Axios para peticiones HTTP
   - i18next para internacionalización
-  - Redux Toolkit para gestión de estado
-  - Chart.js para gráficos
+  - Chart.js para visualización de datos
   - React-Toastify para notificaciones
+  - Date-fns para manejo de fechas
+
+- **Herramientas de Desarrollo**
+  - Vite como empaquetador
+  - ESLint para linting
+  - Prettier para formateo de código
+  - Git para control de versiones
 
 ## 🎯 Uso de Notificaciones
 
@@ -124,81 +150,168 @@ Los errores son manejados automáticamente por el `HttpErrorHandler`. Los códig
 
 ```
 src/
-├── assets/               # Recursos estáticos (imágenes, fuentes, etc.)
+├── api/                  # Configuración y servicios de API
+│   ├── apiManage.js      # Cliente HTTP configurado
+│   ├── auth/            # Servicios de autenticación
+│   └── endpoints/       # Definición de endpoints
+
+├── assets/              # Recursos estáticos (imágenes, fuentes, etc.)
 │   └── img/             # Imágenes del proyecto
-│       └── clode-icon.jpg
+
 ├── components/          # Componentes reutilizables
-│   └── LanguageSwitcher/
+│   ├── common/          # Componentes comunes
+│   └── ui/              # Componentes de interfaz
+
+├── features/            # Características del negocio
+│   └── (en desarrollo)  # Próximas características
+
+├── hooks/               # Custom hooks reutilizables
+
 ├── i18n/                # Configuración de internacionalización
-│   ├── config.js
+│   ├── config.js        # Configuración de i18n
 │   └── locales/         # Archivos de traducción
 │       ├── auth/        # Traducciones de autenticación
 │       ├── dashboard/   # Traducciones del dashboard
 │       ├── shared/      # Traducciones compartidas
-│       ├── es.json  # Español
-│       └── en.json  # Inglés
+│       ├── es.json      # Español
+│       └── en.json      # Inglés
+
+├── layouts/             # Layouts de la aplicación
+│   └── MainLayout/      # Layout principal
+
 ├── pages/               # Componentes de página
 │   ├── Auth/            # Páginas de autenticación
 │   │   ├── Login.jsx
 │   │   └── Signup.jsx
-│   └── Menu.jsx         # Dashboard principal
+│   ├── Dashboard/       # Páginas del dashboard
+│   ├── Reserve/         # Gestión de reservas
+│   ├── Statistics/      # Estadísticas
+│   └── StorageUser/     # Gestión de almacén
+
 ├── store/               # Configuración de Redux
-│   └── store.js
+│   ├── slices/          # Slices de Redux
+│   └── store.js         # Configuración del store
+
 ├── theme/               # Configuración del tema
-│   ├── colors.js
-│   ├── styles.js
-│   └── theme.js
-├── App.jsx              # Componente raíz
-├── utils/             # Utilidades
-│   └── toast.jsx     # Configuración de notificaciones
-└── main.jsx          # Punto de entrada de la aplicación
+│   ├── colors.js        # Paleta de colores
+│   ├── shadows.js       # Sombras personalizadas
+│   └── theme.js         # Configuración del tema MUI
+
+├── utils/               # Utilidades
+│   └── toast.js         # Configuración de notificaciones
+
+├── validations/         # Esquemas de validación
+│   ├── auth.js          # Validaciones de autenticación
+│   └── common.js        # Validaciones comunes
+
+├── App.jsx              # Componente raíz de la aplicación
+└── main.jsx             # Punto de entrada de la aplicación
+```
 ```
 
-## 🚀 Cómo Empezar
+## 🚀 Guía de Inicio Rápido
 
 ### Requisitos Previos
 
-- Node.js (v14 o superior)
-- npm o yarn
+- Node.js (v16 o superior)
+- npm (v8 o superior) o yarn (v1.22 o superior)
+- Git
 
 ### Instalación
 
-1. Clona el repositorio:
+1. **Clonar el repositorio**
    ```bash
-   git clone [URL_DEL_REPOSITORIO]
+   git clone https://github.com/tu-usuario/286704_271171_ObligatorioReactDevFullStack.git
    cd 286704_271171_ObligatorioReactDevFullStack
    ```
 
-2. Instala las dependencias:
+2. **Instalar dependencias**
    ```bash
    npm install
    # o
    yarn
    ```
 
-3. Inicia el servidor de desarrollo:
+3. **Configuración del entorno**
+   Crea un archivo `.env` en la raíz del proyecto con las siguientes variables:
+   ```env
+   VITE_API_URL=http://tu-api-url.com
+   VITE_ENV=development
+   ```
+
+4. **Iniciar el servidor de desarrollo**
    ```bash
    npm run dev
    # o
    yarn dev
    ```
 
-4. Abre tu navegador en:
+5. **Abrir en el navegador**
+   La aplicación estará disponible en:
    ```
    http://localhost:5173
    ```
 
-## 🔐 Credenciales de Acceso para prueba
+## � Comandos Útiles
 
-- **Usuario:** a
-- **Contraseña:** a
+- **Desarrollo**
+  ```bash
+  npm run dev     # Inicia el servidor de desarrollo
+  ```
+
+- **Construcción**
+  ```bash
+  npm run build   # Construye la versión de producción
+  npm run preview # Previsualiza la versión de producción localmente
+  ```
+
+- **Linting y Formateo**
+  ```bash
+  npm run lint    # Ejecuta ESLint
+  npm run format  # Formatea el código con Prettier
+  ```
+
+## 🔐 Credenciales de Prueba
+
+- **Usuario de prueba:**
+  - **Usuario:** a
+  - **Contraseña:** a
 
 ## 🌐 Internacionalización
 
-La aplicación está configurada para soportar múltiples idiomas. Actualmente disponible en:
+La aplicación soporta múltiples idiomas con i18next. Actualmente disponible en:
 
-- Español (predeterminado)
-- English
+- Español (es) - Predeterminado
+- Inglés (en)
+
+### Uso en la Aplicación
+
+La aplicación detecta automáticamente el idioma del navegador y se ajusta en consecuencia. Los usuarios también pueden cambiar manualmente el idioma desde el menú de configuración.
+
+### Agregar un Nuevo Idioma
+
+1. Crea un nuevo archivo en `src/i18n/locales/` siguiendo la estructura de los archivos existentes
+2. Actualiza el archivo de configuración `src/i18n/config.js`
+3. Añade las traducciones necesarias siguiendo la estructura de namespaces
+
+## 🤝 Contribución
+
+1. Haz un fork del proyecto
+2. Crea una rama para tu feature (`git checkout -b feature/nueva-funcionalidad`)
+3. Haz commit de tus cambios (`git commit -m 'Añadir nueva funcionalidad'`)
+4. Haz push a la rama (`git push origin feature/nueva-funcionalidad`)
+5. Abre un Pull Request
+
+## 📄 Licencia
+
+Este proyecto está bajo la Licencia MIT. Ver el archivo `LICENSE` para más detalles.
+
+## ✨ Reconocimientos
+
+- [React](https://reactjs.org/)
+- [Material-UI](https://mui.com/)
+- [Vite](https://vitejs.dev/)
+- A todos los contribuyentes que ayudan a mejorar este proyecto
 
 ## 🎨 Personalización del Tema
 
