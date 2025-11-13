@@ -17,13 +17,17 @@
   "status": {
     "active": "activo",
     "warning": "advertencia",
-    "exception": "límite"
+    "exception": "límite",
+    "success": "éxito"
   },
   "storage": {
     "title": "Gestión de Reservas",
     "error": {
       "fetchingData": "Error al cargar la información de reservas. Por favor, intente nuevamente más tarde.",
       "upgradeFailed": "No se pudo actualizar a Premium. Por favor, intente nuevamente más tarde."
+    },
+    "success": {
+      "upgradePremium": "Se actualizó a Premium con éxito."
     },
     "upgradeDialog": {
       "title": "Actualizar a Premium",
